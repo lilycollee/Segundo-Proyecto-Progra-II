@@ -1,3 +1,3 @@
-C:/Users/bonil/CLionProjects/ProyectoIIPrograII/cmake-build-debug/CMakeFiles/ProyectoIIPrograII.dir
-C:/Users/bonil/CLionProjects/ProyectoIIPrograII/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/bonil/CLionProjects/ProyectoIIPrograII/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/bonil/CLionProjects/Segundo-Proyecto-Progra-II/ProyectoIIPrograII/cmake-build-debug/CMakeFiles/ProyectoIIPrograII.dir
+C:/Users/bonil/CLionProjects/Segundo-Proyecto-Progra-II/ProyectoIIPrograII/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/bonil/CLionProjects/Segundo-Proyecto-Progra-II/ProyectoIIPrograII/cmake-build-debug/CMakeFiles/rebuild_cache.dir

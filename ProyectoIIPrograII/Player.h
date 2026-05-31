@@ -1,6 +1,7 @@
 #ifndef SEGUNDO_PROYECTO_PROGRA_II_PLAYER_H
 #define SEGUNDO_PROYECTO_PROGRA_II_PLAYER_H
-#include "Player.h"
+#include <iostream>
+#include "Entity.h"
 class Player : public Entity {
 private:
     std::string name;
