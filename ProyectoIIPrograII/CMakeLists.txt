@@ -3,4 +3,8 @@ project(ProyectoIIPrograII)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(ProyectoIIPrograII main.cpp)
+add_executable(ProyectoIIPrograII main.cpp
+        Entity.cpp
+        Entity.h
+        Player.cpp
+        Player.h)
