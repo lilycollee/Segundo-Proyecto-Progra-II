@@ -4,7 +4,7 @@ Selección de personajes dentro de la dinámica del juego y los componentes repr
 
         Player:       Androide:       Alien:
 
-         ( )            (°)          :_____:
+         (¨)            (°)          :_____:
          -|-           /|-|\         { ° ° }
          / \            ^ ^          (     )
                                      ^^^^^^^

@@ -76,6 +76,15 @@ build CMakeFiles/ProyectoIIPrograII.dir/Player.cpp.obj: CXX_COMPILER__ProyectoII
   TARGET_COMPILE_PDB = CMakeFiles\ProyectoIIPrograII.dir\
   TARGET_PDB = ProyectoIIPrograII.pdb
 
+build CMakeFiles/ProyectoIIPrograII.dir/Androide.cpp.obj: CXX_COMPILER__ProyectoIIPrograII_unscanned_Debug C$:/Users/bonil/CLionProjects/Segundo-Proyecto-Progra-II/ProyectoIIPrograII/Androide.cpp || cmake_object_order_depends_target_ProyectoIIPrograII
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\ProyectoIIPrograII.dir\Androide.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProyectoIIPrograII.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProyectoIIPrograII.dir
+  TARGET_COMPILE_PDB = CMakeFiles\ProyectoIIPrograII.dir\
+  TARGET_PDB = ProyectoIIPrograII.pdb
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target ProyectoIIPrograII
@@ -84,7 +93,7 @@ build CMakeFiles/ProyectoIIPrograII.dir/Player.cpp.obj: CXX_COMPILER__ProyectoII
 #############################################
 # Link the executable ProyectoIIPrograII.exe
 
-build ProyectoIIPrograII.exe: CXX_EXECUTABLE_LINKER__ProyectoIIPrograII_Debug CMakeFiles/ProyectoIIPrograII.dir/main.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Entity.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Player.cpp.obj
+build ProyectoIIPrograII.exe: CXX_EXECUTABLE_LINKER__ProyectoIIPrograII_Debug CMakeFiles/ProyectoIIPrograII.dir/main.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Entity.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Player.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Androide.cpp.obj
   CONFIG = Debug
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
