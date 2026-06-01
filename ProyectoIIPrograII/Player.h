@@ -17,3 +17,22 @@ public:
     std::string getName() const override;
 };
 #endif //SEGUNDO_PROYECTO_PROGRA_II_PLAYER_H
+
+/* Player:
+ *   ()
+ *  -|-
+ *  /\
+ * Cohete:
+ *    /\
+ *  <|°|>
+ *   ^^
+ * Androide:
+ *  (°)
+ * /| |\
+ *  ^^
+ * Alien:
+ *  :____:
+ * { ° ° }
+ * (     )
+ * ^^^^^^
+ */
