@@ -3,11 +3,15 @@
 #include <iostream>
 #include <sstream>
 #include "Entity.h"
+#include "Backpack.h"
+#include "OxygenTank.h"
+
 class Player : public Entity {
 private:
     std::string name;
     int energy;
     double oxygen;
+    Backpack myBackPack;
 public:
     //-------------- Basics --------------
     Player();
@@ -23,6 +27,9 @@ public:
     std::string getName() const override;
     void setName(std::string name);
     std::string showEntity() const override;
+
+    void refillOxygen(OxygenTank* oxy);
+
 
 };
 #endif //SEGUNDO_PROYECTO_PROGRA_II_PLAYER_H

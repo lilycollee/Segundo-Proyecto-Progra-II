@@ -38,3 +38,12 @@ std::string Player::showEntity() const {
     ss << R"(   / \)";
     return ss.str();
 }
+
+void Player::refillOxygen(OxygenTank* oxy) {
+    if (oxygen < 80) {
+        //usar item
+            //baja la capacidad del tanque y lo desactiva
+        (oxygen > 60)? oxygen = 100 : oxygen+= 40;
+    }
+}
+

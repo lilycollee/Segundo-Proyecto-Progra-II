@@ -26,4 +26,6 @@ add_executable(ProyectoIIPrograII main.cpp
         OxygenTank.h
         Weapon.cpp
         Weapon.h
+        Alien.cpp
+        Alien.h
 )
