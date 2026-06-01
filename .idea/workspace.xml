@@ -9,8 +9,14 @@
     <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
     <option name="/Default/RiderDebugger/RiderRestoreDecompile/RestoreDecompileSetting/@EntryValue" value="false" type="bool" />
   </component>
+  <component name="CMakePresetLoader"><![CDATA[{
+  "useNewFormat": true
+}]]></component>
   <component name="CMakeProjectFlavorService">
     <option name="flavorId" value="CMakePlainProjectFlavor" />
+  </component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -18,7 +24,16 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be64e1c1-3df3-4934-8f89-fc1b9bf7dcbe" name="Changes" comment="Entidad y Jugador" />
+    <list default="true" id="be64e1c1-3df3-4934-8f89-fc1b9bf7dcbe" name="Changes" comment="Entidad y Jugador">
+      <change afterPath="$PROJECT_DIR$/ProyectoIIPrograII/Androide.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ProyectoIIPrograII/Androide.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoIIPrograII/Entity.h" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoIIPrograII/Entity.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoIIPrograII/Player.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoIIPrograII/Player.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoIIPrograII/Player.h" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoIIPrograII/Player.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoIIPrograII/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoIIPrograII/main.cpp" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,7 +54,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/lilycollee/Segundo-Proyecto-Progra-II.git",
-    "accountId": "31629d9f-82ed-459c-973d-2c808898087f"
+    "accountId": "e45062f8-5f40-492b-828f-093d57da85be"
   }
 }]]></component>
   <component name="HighlightingSettingsPerFile">
@@ -72,14 +87,17 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.RadMigrateCodeStyle": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "RunOnceActivity.west.config.association.type.startup.service": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/UNA/2026/EIF204 Progra II/RepoIIProyecto/Segundo-Proyecto-Progra-II",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -108,6 +126,7 @@
       <workItem from="1780201789706" duration="133000" />
       <workItem from="1780201942570" duration="329000" />
       <workItem from="1780202452783" duration="1976000" />
+      <workItem from="1780328981390" duration="4388000" />
     </task>
     <task id="LOCAL-00001" summary="Prueba">
       <option name="closed" value="true" />
@@ -146,6 +165,11 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VCPKGProject">
+    <isAutomaticCheckingOnLaunch value="false" />
+    <isAutomaticFoundErrors value="true" />
+    <isAutomaticReloadCMake value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Prueba" />

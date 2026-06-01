@@ -7,4 +7,7 @@ add_executable(ProyectoIIPrograII main.cpp
         Entity.cpp
         Entity.h
         Player.cpp
-        Player.h)
+        Player.h
+        Androide.h
+        Androide.cpp
+)
