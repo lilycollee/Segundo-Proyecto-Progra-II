@@ -10,4 +10,20 @@ add_executable(ProyectoIIPrograII main.cpp
         Player.h
         Androide.h
         Androide.cpp
+        Consumable.h
+        Consumable.cpp
+        Backpack.cpp
+        Backpack.h
+        DeactivationKey.cpp
+        DeactivationKey.h
+        Item.cpp
+        Item.h
+        LaserGun.cpp
+        LaserGun.h
+        MedicalEquipment.cpp
+        MedicalEquipment.h
+        OxygenTank.cpp
+        OxygenTank.h
+        Weapon.cpp
+        Weapon.h
 )
