@@ -98,6 +98,62 @@ build CMakeFiles/ProyectoIIPrograII.dir/DeactivationKey.cpp.obj: CXX_COMPILER__P
   OBJECT_DIR = CMakeFiles\ProyectoIIPrograII.dir
   OBJECT_FILE_DIR = CMakeFiles\ProyectoIIPrograII.dir
 
+build CMakeFiles/ProyectoIIPrograII.dir/Item.cpp.obj: CXX_COMPILER__ProyectoIIPrograII_unscanned_Debug C$:/Users/bonil/CLionProjects/Segundo-Proyecto-Progra-II/ProyectoIIPrograII/Item.cpp || cmake_object_order_depends_target_ProyectoIIPrograII
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\ProyectoIIPrograII.dir\Item.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProyectoIIPrograII.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProyectoIIPrograII.dir
+
+build CMakeFiles/ProyectoIIPrograII.dir/LaserGun.cpp.obj: CXX_COMPILER__ProyectoIIPrograII_unscanned_Debug C$:/Users/bonil/CLionProjects/Segundo-Proyecto-Progra-II/ProyectoIIPrograII/LaserGun.cpp || cmake_object_order_depends_target_ProyectoIIPrograII
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\ProyectoIIPrograII.dir\LaserGun.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProyectoIIPrograII.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProyectoIIPrograII.dir
+
+build CMakeFiles/ProyectoIIPrograII.dir/MedicalEquipment.cpp.obj: CXX_COMPILER__ProyectoIIPrograII_unscanned_Debug C$:/Users/bonil/CLionProjects/Segundo-Proyecto-Progra-II/ProyectoIIPrograII/MedicalEquipment.cpp || cmake_object_order_depends_target_ProyectoIIPrograII
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\ProyectoIIPrograII.dir\MedicalEquipment.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProyectoIIPrograII.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProyectoIIPrograII.dir
+
+build CMakeFiles/ProyectoIIPrograII.dir/OxygenTank.cpp.obj: CXX_COMPILER__ProyectoIIPrograII_unscanned_Debug C$:/Users/bonil/CLionProjects/Segundo-Proyecto-Progra-II/ProyectoIIPrograII/OxygenTank.cpp || cmake_object_order_depends_target_ProyectoIIPrograII
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\ProyectoIIPrograII.dir\OxygenTank.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProyectoIIPrograII.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProyectoIIPrograII.dir
+
+build CMakeFiles/ProyectoIIPrograII.dir/Weapon.cpp.obj: CXX_COMPILER__ProyectoIIPrograII_unscanned_Debug C$:/Users/bonil/CLionProjects/Segundo-Proyecto-Progra-II/ProyectoIIPrograII/Weapon.cpp || cmake_object_order_depends_target_ProyectoIIPrograII
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\ProyectoIIPrograII.dir\Weapon.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProyectoIIPrograII.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProyectoIIPrograII.dir
+
+build CMakeFiles/ProyectoIIPrograII.dir/Alien.cpp.obj: CXX_COMPILER__ProyectoIIPrograII_unscanned_Debug C$:/Users/bonil/CLionProjects/Segundo-Proyecto-Progra-II/ProyectoIIPrograII/Alien.cpp || cmake_object_order_depends_target_ProyectoIIPrograII
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\ProyectoIIPrograII.dir\Alien.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProyectoIIPrograII.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProyectoIIPrograII.dir
+
+build CMakeFiles/ProyectoIIPrograII.dir/Keys.cpp.obj: CXX_COMPILER__ProyectoIIPrograII_unscanned_Debug C$:/Users/bonil/CLionProjects/Segundo-Proyecto-Progra-II/ProyectoIIPrograII/Keys.cpp || cmake_object_order_depends_target_ProyectoIIPrograII
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\ProyectoIIPrograII.dir\Keys.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProyectoIIPrograII.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProyectoIIPrograII.dir
+
+build CMakeFiles/ProyectoIIPrograII.dir/AccessKey.cpp.obj: CXX_COMPILER__ProyectoIIPrograII_unscanned_Debug C$:/Users/bonil/CLionProjects/Segundo-Proyecto-Progra-II/ProyectoIIPrograII/AccessKey.cpp || cmake_object_order_depends_target_ProyectoIIPrograII
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\ProyectoIIPrograII.dir\AccessKey.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProyectoIIPrograII.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProyectoIIPrograII.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target ProyectoIIPrograII
@@ -106,7 +162,7 @@ build CMakeFiles/ProyectoIIPrograII.dir/DeactivationKey.cpp.obj: CXX_COMPILER__P
 #############################################
 # Link the executable ProyectoIIPrograII.exe
 
-build ProyectoIIPrograII.exe: CXX_EXECUTABLE_LINKER__ProyectoIIPrograII_Debug CMakeFiles/ProyectoIIPrograII.dir/main.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Entity.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Player.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Androide.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Consumable.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Backpack.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/DeactivationKey.cpp.obj
+build ProyectoIIPrograII.exe: CXX_EXECUTABLE_LINKER__ProyectoIIPrograII_Debug CMakeFiles/ProyectoIIPrograII.dir/main.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Entity.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Player.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Androide.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Consumable.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Backpack.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/DeactivationKey.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Item.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/LaserGun.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/MedicalEquipment.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/OxygenTank.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Weapon.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Alien.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Keys.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/AccessKey.cpp.obj
   CONFIG = Debug
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

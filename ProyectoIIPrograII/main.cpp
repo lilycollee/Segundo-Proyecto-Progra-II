@@ -3,8 +3,6 @@
 #include "Androide.h"
 #include "Player.h"
 int main() {
-    std::cout << "Hola" << std::endl;
-
     Player pl;
     Androide andro("An-000");
     Alien ali;

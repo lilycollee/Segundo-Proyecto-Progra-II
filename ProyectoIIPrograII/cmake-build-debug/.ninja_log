@@ -1,5 +1,18 @@
 # ninja log v6
-34	1769	8020401586501930	CMakeFiles/ProyectoIIPrograII.dir/Entity.cpp.obj	67906aed088954d8
-19	2045	8020462977291587	CMakeFiles/ProyectoIIPrograII.dir/main.cpp.obj	613bb4c6f7086b88
-50	1778	8020401586654717	CMakeFiles/ProyectoIIPrograII.dir/Player.cpp.obj	682c8d8a8610e27
-1619	2059	8020466982593327	ProyectoIIPrograII.exe	3e31f154afdfd8b9
+138	1699	8021470586033945	CMakeFiles/ProyectoIIPrograII.dir/Entity.cpp.obj	67906aed088954d8
+121	2097	8021470585873906	CMakeFiles/ProyectoIIPrograII.dir/main.cpp.obj	613bb4c6f7086b88
+176	2275	8021470586419152	CMakeFiles/ProyectoIIPrograII.dir/Consumable.cpp.obj	8be4afb539dfd3f2
+151	2210	8021470586164005	CMakeFiles/ProyectoIIPrograII.dir/Player.cpp.obj	682c8d8a8610e27
+5144	5750	8021470636098945	ProyectoIIPrograII.exe	931b5b59eff3ac12
+189	2302	8021470586549213	CMakeFiles/ProyectoIIPrograII.dir/Backpack.cpp.obj	d58037ee74ffe512
+1701	3360	8021470601662913	CMakeFiles/ProyectoIIPrograII.dir/DeactivationKey.cpp.obj	783de04e0b250aa9
+2097	3399	8021470605629718	CMakeFiles/ProyectoIIPrograII.dir/Item.cpp.obj	8be0905b6d016d99
+163	3668	8021470586289130	CMakeFiles/ProyectoIIPrograII.dir/Androide.cpp.obj	e6ad4a260a35b1f9
+2210	3789	8021470606765170	CMakeFiles/ProyectoIIPrograII.dir/LaserGun.cpp.obj	bdb6ec78396b6bbc
+2276	3855	8021470607417709	CMakeFiles/ProyectoIIPrograII.dir/MedicalEquipment.cpp.obj	be2a83211a13b662
+2302	3895	8021470607685688	CMakeFiles/ProyectoIIPrograII.dir/OxygenTank.cpp.obj	f8101a7e650b0114
+3399	4917	8021470618647722	CMakeFiles/ProyectoIIPrograII.dir/Alien.cpp.obj	1cdd36fb81e1ca8e
+3361	5143	8021470618269752	CMakeFiles/ProyectoIIPrograII.dir/Weapon.cpp.obj	516220aa2f4d24bc
+31	1701	8021479147038214	CMakeFiles/ProyectoIIPrograII.dir/AccessKey.cpp.obj	945e888c3f59cd47
+17	1983	8021479146895228	CMakeFiles/ProyectoIIPrograII.dir/Keys.cpp.obj	8c5bb1d6f5089a1e
+1983	2525	8021479166558876	ProyectoIIPrograII.exe	687899557d32ca14

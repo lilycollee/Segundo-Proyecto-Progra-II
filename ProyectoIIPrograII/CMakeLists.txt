@@ -28,4 +28,8 @@ add_executable(ProyectoIIPrograII main.cpp
         Weapon.h
         Alien.cpp
         Alien.h
+        Keys.cpp
+        Keys.h
+        AccessKey.cpp
+        AccessKey.h
 )
