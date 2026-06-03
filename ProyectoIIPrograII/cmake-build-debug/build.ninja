@@ -154,6 +154,13 @@ build CMakeFiles/ProyectoIIPrograII.dir/AccessKey.cpp.obj: CXX_COMPILER__Proyect
   OBJECT_DIR = CMakeFiles\ProyectoIIPrograII.dir
   OBJECT_FILE_DIR = CMakeFiles\ProyectoIIPrograII.dir
 
+build CMakeFiles/ProyectoIIPrograII.dir/Room.cpp.obj: CXX_COMPILER__ProyectoIIPrograII_unscanned_Debug C$:/Users/bonil/CLionProjects/Segundo-Proyecto-Progra-II/ProyectoIIPrograII/Room.cpp || cmake_object_order_depends_target_ProyectoIIPrograII
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\ProyectoIIPrograII.dir\Room.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\ProyectoIIPrograII.dir
+  OBJECT_FILE_DIR = CMakeFiles\ProyectoIIPrograII.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target ProyectoIIPrograII
@@ -162,7 +169,7 @@ build CMakeFiles/ProyectoIIPrograII.dir/AccessKey.cpp.obj: CXX_COMPILER__Proyect
 #############################################
 # Link the executable ProyectoIIPrograII.exe
 
-build ProyectoIIPrograII.exe: CXX_EXECUTABLE_LINKER__ProyectoIIPrograII_Debug CMakeFiles/ProyectoIIPrograII.dir/main.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Entity.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Player.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Androide.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Consumable.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Backpack.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/DeactivationKey.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Item.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/LaserGun.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/MedicalEquipment.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/OxygenTank.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Weapon.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Alien.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Keys.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/AccessKey.cpp.obj
+build ProyectoIIPrograII.exe: CXX_EXECUTABLE_LINKER__ProyectoIIPrograII_Debug CMakeFiles/ProyectoIIPrograII.dir/main.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Entity.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Player.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Androide.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Consumable.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Backpack.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/DeactivationKey.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Item.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/LaserGun.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/MedicalEquipment.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/OxygenTank.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Weapon.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Alien.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Keys.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/AccessKey.cpp.obj CMakeFiles/ProyectoIIPrograII.dir/Room.cpp.obj
   CONFIG = Debug
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

@@ -1,0 +1,26 @@
+#ifndef PROYECTOIIPROGRAII_ROOM_H
+#define PROYECTOIIPROGRAII_ROOM_H
+#include <iostream>
+#include <vector>
+#include "Entity.h"
+#include "Item.h"
+class Room {
+private:
+    std::string name;
+    std::string description;
+    std::vector<Room*> connections;
+    std::vector<Item*> trunk;
+    std::vector<Entity*> entity;
+    int energy;
+public:
+    // --------------- Base Methods ---------------
+    Room(std::string name, std::string description, std::vector<Room*> connections, std::vector<Item*> trunk, std::vector<Entity*> entity, int energy);
+    std::string getName();
+    std::string getDescription();
+    std::vector<Room*> getConnections();
+
+    // --------------- Printing Methods ---------------
+    std::string printRoom();
+    std::string printRooms();
+};
+#endif //PROYECTOIIPROGRAII_ROOM_H

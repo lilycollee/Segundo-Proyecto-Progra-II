@@ -32,4 +32,6 @@ add_executable(ProyectoIIPrograII main.cpp
         Keys.h
         AccessKey.cpp
         AccessKey.h
+        Room.cpp
+        Room.h
 )
