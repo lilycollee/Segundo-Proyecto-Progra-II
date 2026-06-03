@@ -5,24 +5,30 @@
 #include <sstream>
 #include "Entity.h"
 
+//implementa singleton
 class Alien : public Entity {
 private:
     std::string name;
     double health;
-
+    Alien();
 public:
 
     //-------------- Basics --------------
-    Alien();
-    virtual ~Alien();
+
+    virtual ~Alien() ;
+    static Alien& getInstance();
     double getHealth() const;
+    Alien(const Alien&) = delete;
+    Alien& operator=(const Alien&) = delete;
 
     //-------------- Others --------------
     std::string getName() const override;
     std::string showEntity() const override;
 
-    void attack(); //le baja vida al player
-    void lowerHealth(); //el player le baja vida hasta matarlo
+    //-------------- Combat --------------
+    double attack();               //le baja vida al player
+    void lowerHealth(double damage);          //el player le baja vida hasta matarlo
+    bool isDefeated() const;     // True cuando health llegue a 0
 };
 
 

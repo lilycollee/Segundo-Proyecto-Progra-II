@@ -8,8 +8,8 @@ add_executable(ProyectoIIPrograII main.cpp
         Entity.h
         Player.cpp
         Player.h
-        Androide.h
-        Androide.cpp
+        Android.h
+        Android.cpp
         Consumable.h
         Consumable.cpp
         Backpack.cpp
