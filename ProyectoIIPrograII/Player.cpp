@@ -22,9 +22,8 @@ void Player::setOxygen(int oxygen) { this->oxygen = oxygen; }
 std::string Player::showInformation() const {
     std::stringstream ss;
     ss << name << " has: \n";
-    ss << "Energy" << energy << "%\n" ;
-    ss << "Oxygen" << oxygen << "%\n";
-
+    ss << "Energy: " << energy << "%\n" ;
+    ss << "Oxygen: " << oxygen << "%\n";
     return ss.str();
 }
 
@@ -43,7 +42,8 @@ void Player::refillOxygen(OxygenTank* oxy) {
     if (oxygen < 80) {
         //usar item
             //baja la capacidad del tanque y lo desactiva
-        (oxygen > 60)? oxygen = 100 : oxygen+= 40;
+        oxygen > 60 ? oxygen = 100 : oxygen+= 40;
+        oxy->setActive(false);
     }
 }
 
