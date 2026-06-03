@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "Backpack.h"
 #include "OxygenTank.h"
+#include "MedicalEquipment.h"
 
 class Player : public Entity {
 private:
@@ -29,6 +30,10 @@ public:
     std::string showEntity() const override;
 
     void refillOxygen(OxygenTank* oxy);
+    void useMedicalKit(MedicalEquipment* kit);
+    //void useLaserGun(Weapon* weapon);
+    void pickUpItem(Item* item);
+    void showInventory() const;
 
 
 };

@@ -38,12 +38,30 @@ std::string Player::showEntity() const {
     return ss.str();
 }
 
-void Player::refillOxygen(OxygenTank* oxy) {
+void Player::refillOxygen(OxygenTank* oxyT) {
     if (oxygen < 80) {
-        //usar item
-            //baja la capacidad del tanque y lo desactiva
-        oxygen > 60 ? oxygen = 100 : oxygen+= 40;
-        oxy->setActive(false);
+        if (oxyT->getActive()) {
+        	oxygen+oxyT->getCapacity() > 100?
+				oxygen = 100 : oxygen+=oxyT->getCapacity();
+
+        	oxyT->setActive(false); //deshabilita el tanque
+			oxyT->setCapacity(0);
+		}
+		//el tanque de oxigeno ya ha sido usado
     }
+	//el oxigeno es alto, evito desperdicio
+}
+
+void Player::useMedicalKit(MedicalEquipment* kit) {
+    if (energy < 90) {
+        if (kit->getActive()) {
+            energy + kit->getCapacity() > 100 ?
+				energy = 100 : energy += kit->getCapacity();
+            kit->setActive(false); // el kit ya fue usado
+			kit->setCapacity(0);
+        }
+		//el kit ya fue usado
+    }
+	//tiene suficiente energia, evita desperdicio
 }
 

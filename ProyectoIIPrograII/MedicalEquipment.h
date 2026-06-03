@@ -10,8 +10,10 @@ public:
     MedicalEquipment();
     std::string getName() const override;
     std::string description();
-    bool getActive();
+    bool getActive() const;
     void setActive(bool active);
+    int getCapacity() const;
+    void setCapacity(int capacity);
     std::string toString(int nivel) override;
 };
 #endif //PROYECTOIIPROGRAII_MEDICALEQUIPMENT_H

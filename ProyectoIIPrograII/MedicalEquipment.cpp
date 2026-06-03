@@ -13,11 +13,17 @@ std::string MedicalEquipment::description() {
     s << "DESCRIPTION: " << name << " |Capacity: " << capacity << " |Used: " << (active ? "NO" : "YES") << "\n";
     return s.str();
 }
-bool MedicalEquipment::getActive() {
+bool MedicalEquipment::getActive() const {
     return active;
 }
 void MedicalEquipment::setActive(bool active) {
     this->active = active;
+}
+int MedicalEquipment::getCapacity() const {
+    return capacity;
+}
+void MedicalEquipment::setCapacity(int capacity) {
+    this->capacity = capacity;
 }
 std::string MedicalEquipment::toString(int nivel = 0) {
     std::stringstream s;
