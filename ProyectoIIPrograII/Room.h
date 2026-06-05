@@ -23,5 +23,8 @@ public:
     // --------------- Printing Method ---------------
     std::string singleSidedPrinting();
     std::string printRooms();
+
+    // --------------- Destructor ---------------
+    ~Room();
 };
 #endif //PROYECTOIIPROGRAII_ROOM_H

@@ -81,3 +81,5 @@ std::string Room::printRooms() {
     }
     return s.str();
 }
+
+Room::~Room() {}
