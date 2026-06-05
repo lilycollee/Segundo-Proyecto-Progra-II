@@ -11,16 +11,17 @@ private:
     std::vector<Room*> connections;
     std::vector<Item*> trunk;
     std::vector<Entity*> entity;
-    int energy;
+    int oxygen;
 public:
     // --------------- Base Methods ---------------
-    Room(std::string name, std::string description, std::vector<Room*> connections, std::vector<Item*> trunk, std::vector<Entity*> entity, int energy);
+    Room(std::string name, std::string description, std::vector<Room*> connections, std::vector<Item*> trunk, std::vector<Entity*> entity, int oxygen);
     std::string getName();
     std::string getDescription();
+    int getOxygen();
     std::vector<Room*> getConnections();
 
-    // --------------- Printing Methods ---------------
-    std::string printRoom();
+    // --------------- Printing Method ---------------
+    std::string singleSidedPrinting();
     std::string printRooms();
 };
 #endif //PROYECTOIIPROGRAII_ROOM_H
