@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Player.h"
 Player::Player() {
     name = "SpaceMan";
@@ -14,10 +15,22 @@ Player::~Player() {
 }
 
 int Player::getEnergy() const  { return energy; }
-void Player::setEnergy(int energy) { this->energy = energy; }
+void Player::setEnergy(int e) {
+    this->energy = e;
+    notify("ENERGY_CHANGED", energy);
+    if (energy <= 0) {
+        notify("PLAYER_DEAD");
+    }
+}
 
 double Player::getOxygen() const  { return oxygen; }
-void Player::setOxygen(int oxygen) { this->oxygen = oxygen; }
+void Player::setOxygen(int o) {
+    this->oxygen = o;
+    notify("OXYGEN_CHANGED", oxygen);
+    if (oxygen <= 0) {
+        notify("PLAYER_DEAD");
+    }
+}
 
 std::string Player::showInformation() const {
     std::stringstream ss;
@@ -63,5 +76,17 @@ void Player::useMedicalKit(MedicalEquipment* kit) {
 		//el kit ya fue usado
     }
 	//tiene suficiente energia, evita desperdicio
+}
+
+void Player::addObserver(IObserver* obs) {
+    observers.push_back(obs);
+}
+void Player::removeObserver(IObserver* obs) {
+    observers.erase(std::remove(observers.begin(), observers.end(), obs), observers.end());
+}
+void Player::notify(const std::string& event, double value) {
+    for (auto* obs : observers) {
+        obs->onEvent(event, value);
+    }
 }
 

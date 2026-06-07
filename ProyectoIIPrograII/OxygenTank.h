@@ -7,7 +7,7 @@ private:
     int capacity;
     bool active;
 public:
-    OxygenTank();
+    OxygenTank(std::string name, double capacity);
     std::string getName() const override;
     std::string description();
     bool getActive() const;

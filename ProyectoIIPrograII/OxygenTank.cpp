@@ -1,9 +1,9 @@
 #include "OxygenTank.h"
 #include <sstream>
 
-OxygenTank::OxygenTank() {
-    name = "Oxygen Capsule Replacement";
-    capacity = 40;
+OxygenTank::OxygenTank(std::string name, double capacity) {
+    this->name = name;
+    this->capacity = capacity;
     active = true;
 }
 std::string OxygenTank::getName() const {

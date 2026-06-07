@@ -1,7 +1,7 @@
 #include "DeactivationKey.h"
 #include <sstream>
-DeactivationKey::DeactivationKey() {
-    name = "Master Key For Androids";
+DeactivationKey::DeactivationKey(std::string name) {
+    this->name = name;
 }
 std::string DeactivationKey::getName() const {
     return name;

@@ -1,7 +1,7 @@
 #include "LaserGun.h"
 #include <sstream>
-LaserGun::LaserGun() {
-    name = "Long-range Laser Gun";
+LaserGun::LaserGun(std::string name) {
+    this->name = name;
 }
 std::string LaserGun::getName() const {
     return name;

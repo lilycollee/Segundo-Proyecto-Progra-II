@@ -5,7 +5,7 @@ class DeactivationKey : public Item {
 private:
     std::string name;
 public:
-    DeactivationKey();
+    DeactivationKey(std::string name);
     std::string getName() const override;
     std::string description();
     std::string toString(int nivel) override;

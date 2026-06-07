@@ -1,7 +1,7 @@
 #include "AccessKey.h"
 #include <sstream>
-AccessKey::AccessKey() {
-    name = "Emergency Key";
+AccessKey::AccessKey(std::string name) {
+    this->name = name;
 }
 std::string AccessKey::getName() const {
     return name;

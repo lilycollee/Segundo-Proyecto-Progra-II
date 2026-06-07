@@ -5,7 +5,7 @@ class AccessKey : public Item {
 private:
     std::string name;
 public:
-    AccessKey();
+    AccessKey(std::string name);
     std::string getName() const override;
     void setName(std::string name);
     std::string description();

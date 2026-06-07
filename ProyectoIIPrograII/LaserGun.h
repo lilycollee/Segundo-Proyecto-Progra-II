@@ -5,7 +5,7 @@ class LaserGun : public Item {
 private:
     std::string name;
 public:
-    LaserGun();
+    LaserGun(std::string name);
     std::string getName() const override;
     std::string description();
     std::string toString(int nivel) override;

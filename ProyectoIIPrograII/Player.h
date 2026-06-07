@@ -4,10 +4,12 @@
 #include <sstream>
 #include "Entity.h"
 #include "Backpack.h"
+#include "IObservable.h"
 #include "OxygenTank.h"
 #include "MedicalEquipment.h"
-class Player : public Entity {
+class Player : public Entity, public IObservable {
 private:
+    std::vector<IObserver*> observers;
     std::string name;
     int energy;
     double oxygen;
@@ -33,5 +35,10 @@ public:
     //void useLaserGun(Weapon* weapon);
     void pickUpItem(Item* item);
     void showInventory() const;
+
+    //-------------- Observers  --------------
+    void addObserver(IObserver* obs) override;
+    void removeObserver(IObserver* obs) override;
+    void notify(const std::string& event, double value = 0) override;
 };
 #endif //SEGUNDO_PROYECTO_PROGRA_II_PLAYER_H

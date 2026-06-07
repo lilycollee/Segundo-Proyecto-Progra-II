@@ -7,7 +7,7 @@ private:
     int capacity;
     bool active;
 public:
-    MedicalEquipment();
+    MedicalEquipment(std::string name, double capacity);
     std::string getName() const override;
     std::string description();
     bool getActive() const;

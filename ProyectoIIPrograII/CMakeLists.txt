@@ -34,4 +34,8 @@ add_executable(ProyectoIIPrograII main.cpp
         AccessKey.h
         Room.cpp
         Room.h
+        IObserver.cpp
+        IObserver.h
+        IObservable.cpp
+        IObservable.h
 )

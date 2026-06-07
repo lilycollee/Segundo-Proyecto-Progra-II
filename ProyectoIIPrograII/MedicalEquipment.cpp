@@ -1,8 +1,8 @@
 #include "MedicalEquipment.h"
 #include <sstream>
-MedicalEquipment::MedicalEquipment() {
-    name = "Medical Kit";
-    capacity = 25;
+MedicalEquipment::MedicalEquipment(std::string name, double capacity) {
+    this->name = name;
+    this->capacity = capacity;
     active = true;
 }
 std::string MedicalEquipment::getName() const {
