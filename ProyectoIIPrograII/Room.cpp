@@ -22,6 +22,16 @@ int Room::getOxygen() {
     return this->oxygen;
 }
 
+void Room::setConnections(std::vector<Room*> conns) {
+    connections = conns;
+}
+void Room::addEntity(Entity* e) {
+    entity.push_back(e);
+}
+void Room::addItem(Item* item) {
+    trunk.push_back(item);
+}
+
 std::string Room::singleSidedPrinting() {
     std::stringstream s;
     s << "Currente location: [" << name << "]\n";
@@ -81,5 +91,4 @@ std::string Room::printRooms() {
     }
     return s.str();
 }
-
 Room::~Room() {}

@@ -20,6 +20,10 @@ public:
     int getOxygen();
     std::vector<Room*> getConnections();
 
+    void setConnections(std::vector<Room*> conns);
+    void addEntity(Entity* e);
+    void addItem(Item* item);
+
     // --------------- Printing Method ---------------
     std::string singleSidedPrinting();
     std::string printRooms();

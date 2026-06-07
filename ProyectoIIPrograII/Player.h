@@ -6,7 +6,6 @@
 #include "Backpack.h"
 #include "OxygenTank.h"
 #include "MedicalEquipment.h"
-
 class Player : public Entity {
 private:
     std::string name;
@@ -34,26 +33,5 @@ public:
     //void useLaserGun(Weapon* weapon);
     void pickUpItem(Item* item);
     void showInventory() const;
-
-
 };
 #endif //SEGUNDO_PROYECTO_PROGRA_II_PLAYER_H
-
-/* Player:
- *   ()
- *  -|-
- *  /\
- * Cohete:
- *    /\
- *  <|°|>
- *   ^^
- * Android:
- *  (°)
- * /| |\
- *  ^^
- * Alien:
- *  :____:
- * { ° ° }
- * (     )
- * ^^^^^^
- */
