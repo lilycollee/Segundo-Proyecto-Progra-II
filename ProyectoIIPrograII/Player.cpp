@@ -4,11 +4,15 @@ Player::Player() {
     name = "SpaceMan";
     energy = 100;
     oxygen = 100;
+    myBackPack = new Backpack();
+    myBackPack->add(new OxygenTank("First Oxygen Tank",30));
 }
 
-Player::Player(std::string name) : name(name) {
+Player::Player(std::string name_) : name(name_) {
     energy = 100;
     oxygen = 100;
+    myBackPack = new Backpack();
+    myBackPack->add(new OxygenTank("First Oxygen Tank",30));
 }
 Player::~Player() {
     std::cout << name << " is dead!! X_X" << std::endl;
@@ -41,7 +45,7 @@ std::string Player::showInformation() const {
 }
 
 std::string Player::getName() const  { return name; }
-void Player::setName(std::string name) { this->name = name; }
+void Player::setName(std::string name_) { this->name = name_; }
 
 std::string Player::showEntity() const {
     std::stringstream ss;
@@ -77,6 +81,16 @@ void Player::useMedicalKit(MedicalEquipment* kit) {
     }
 	//tiene suficiente energia, evita desperdicio
 }
+
+void Player::pickUpItem(Item *item) {
+    myBackPack->add(item);
+}
+
+void Player::showInventory() const {
+    myBackPack->toString(0);
+}
+
+
 
 void Player::addObserver(IObserver* obs) {
     observers.push_back(obs);

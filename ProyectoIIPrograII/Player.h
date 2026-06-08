@@ -13,7 +13,7 @@ private:
     std::string name;
     int energy;
     double oxygen;
-    Backpack myBackPack;
+    Backpack *myBackPack;
 public:
     //-------------- Basics --------------
     Player();
