@@ -11,6 +11,7 @@ public:
     std::string getName() const override;
     void add(Item* item);
     std::string toString(int nivel) override;
+    ~Backpack();
 };
 
 

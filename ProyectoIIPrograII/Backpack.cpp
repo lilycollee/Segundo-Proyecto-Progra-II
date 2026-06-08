@@ -17,3 +17,8 @@ std::string Backpack::toString(int nivel = 0) {
     }
     return s.str();
 }
+Backpack::~Backpack() {
+    for (Item* i : items) {
+        delete i;
+    }
+}

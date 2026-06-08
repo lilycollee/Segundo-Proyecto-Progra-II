@@ -2,18 +2,20 @@
 #define SEGUNDO_PROYECTO_PROGRA_II_PLAYER_H
 #include <iostream>
 #include <sstream>
+#include <memory>
 #include "Entity.h"
 #include "Backpack.h"
 #include "IObservable.h"
 #include "OxygenTank.h"
 #include "MedicalEquipment.h"
+
 class Player : public Entity, public IObservable {
 private:
     std::vector<IObserver*> observers;
     std::string name;
     int energy;
     double oxygen;
-    Backpack *myBackPack;
+    std::unique_ptr<Backpack> myBackPack;
 public:
     //-------------- Basics --------------
     Player();
@@ -30,11 +32,12 @@ public:
     void setName(std::string name);
     std::string showEntity() const override;
 
+    //-------------- Own --------------
     void refillOxygen(OxygenTank* oxy);
     void useMedicalKit(MedicalEquipment* kit);
     //void useLaserGun(Weapon* weapon);
     void pickUpItem(Item* item);
-    void showInventory() const;
+    std::string showInventory() const;
 
     //-------------- Observers  --------------
     void addObserver(IObserver* obs) override;

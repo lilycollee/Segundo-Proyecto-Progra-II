@@ -4,15 +4,15 @@ Player::Player() {
     name = "SpaceMan";
     energy = 100;
     oxygen = 100;
-    myBackPack = new Backpack();
-    myBackPack->add(new OxygenTank("First Oxygen Tank",30));
+    myBackPack = std::make_unique<Backpack>();
+    myBackPack->add(new OxygenTank("Oxygen Tank",30));
 }
 
 Player::Player(std::string name_) : name(name_) {
     energy = 100;
     oxygen = 100;
     myBackPack = new Backpack();
-    myBackPack->add(new OxygenTank("First Oxygen Tank",30));
+    myBackPack->add(new OxygenTank("Oxygen Tank",30));
 }
 Player::~Player() {
     std::cout << name << " is dead!! X_X" << std::endl;
@@ -56,7 +56,7 @@ std::string Player::showEntity() const {
 }
 
 void Player::refillOxygen(OxygenTank* oxyT) {
-    if (oxygen < 80) {
+    if (oxygen < 75) {
         if (oxyT->getActive()) {
         	oxygen+oxyT->getCapacity() > 100?
 				oxygen = 100 : oxygen+=oxyT->getCapacity();
@@ -70,7 +70,7 @@ void Player::refillOxygen(OxygenTank* oxyT) {
 }
 
 void Player::useMedicalKit(MedicalEquipment* kit) {
-    if (energy < 90) {
+    if (energy < 75) {
         if (kit->getActive()) {
             energy + kit->getCapacity() > 100 ?
 				energy = 100 : energy += kit->getCapacity();
@@ -86,8 +86,8 @@ void Player::pickUpItem(Item *item) {
     myBackPack->add(item);
 }
 
-void Player::showInventory() const {
-    myBackPack->toString(0);
+std::string Player::showInventory() const {
+    return myBackPack->toString(0);
 }
 
 
