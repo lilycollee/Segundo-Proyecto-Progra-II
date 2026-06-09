@@ -1,5 +1,9 @@
 #include "GameSystem.h"
 #include "WorldLoader.h"
+#include "OxygenTank.h"
+#include "MedicalEquipment.h"
+#include "DeactivationKey.h"
+#include "LaserGun.h"
 #include <iomanip>
 #include <sstream>
 GameSystem::GameSystem() {
@@ -328,20 +332,82 @@ void GameSystem::actionLookAround() {
     logger.log("Player looked around: " + currentRoom->getName());
     ui.pause();
 }
-
 void GameSystem::actionPickUpItem() {
-    // sin terminar
-    ui.showMessage("[Pick up] Requires Room::getItems() to activate.");
+    auto trunk = currentRoom->getTrunk();
+    if (trunk.empty()) {
+        ui.showMessage("There are no items here.");
+        ui.pause();
+        return;
+    }
+    // Mostrar items disponibles
+    std::vector<std::string> lines;
+    for (int i = 0; i < (int)trunk.size(); i++) {
+        lines.push_back(std::to_string(i + 1) + ". " + trunk[i]->getName());
+    }
+    int cancelOpt = (int)trunk.size() + 1;
+    lines.push_back(std::to_string(cancelOpt) + ". Cancel");
+    lines.push_back("");
+    lines.push_back("Choose option...");
+    ui.showBox("PICK UP ITEM", lines);
+    int option = ui.readOption(1, cancelOpt);
+    if (option == cancelOpt) {
+        return;
+    }
+    int idx = option - 1;
+    Item* item = trunk[idx];
+    player->pickUpItem(item);       // mochila toma ownership
+    currentRoom->removeItem(idx);   // sala suelta el puntero
+    ui.showMessage("You picked up: " + item->getName());
+    logger.log("Player picked up: " + item->getName());
     ui.pause();
 }
 
 void GameSystem::actionUseItem() {
-    // sin terminar
-    ui.showMessage(player->showInventory());
-    ui.showMessage("[Use item] Requires Backpack item access to activate.");
+    auto& items = player->getBackpack()->getItems();
+    // Filtrar solo items usables (activos)
+    std::vector<int> usableIdx;
+    for (int i = 0; i < (int)items.size(); i++) {
+        if (auto* oxy = dynamic_cast<OxygenTank*>(items[i])) {
+            if (oxy->getActive()) {
+                usableIdx.push_back(i);
+            }
+        } else if (auto* kit = dynamic_cast<MedicalEquipment*>(items[i])) {
+            if (kit->getActive()) {
+                usableIdx.push_back(i);
+            }
+        }
+    }
+    if (usableIdx.empty()) {
+        ui.showMessage("No usable items in your backpack.");
+        ui.pause();
+        return;
+    }
+    // Mostrar solo los usables
+    std::vector<std::string> lines;
+    for (int i = 0; i < (int)usableIdx.size(); i++) {
+        lines.push_back(std::to_string(i + 1) + ". " + items[usableIdx[i]]->getName());
+    }
+    int cancelOpt = (int)usableIdx.size() + 1;
+    lines.push_back(std::to_string(cancelOpt) + ". Cancel");
+    lines.push_back("");
+    lines.push_back("Choose option...");
+    ui.showBox("USE ITEM", lines);
+    int option = ui.readOption(1, cancelOpt);
+    if (option == cancelOpt) {
+        return;
+    }
+    Item* chosen = items[usableIdx[option - 1]];
+    if (auto* oxy = dynamic_cast<OxygenTank*>(chosen)) {
+        player->refillOxygen(oxy);
+        ui.showMessage("You use " + oxy->getName() + ". Oxygen restored.");
+        logger.log("Player used OxygenTank: " + oxy->getName());
+    } else if (auto* kit = dynamic_cast<MedicalEquipment*>(chosen)) {
+        player->useMedicalKit(kit);
+        ui.showMessage("You use " + kit->getName() + ". Energy restored.");
+        logger.log("Player used MedKit: " + kit->getName());
+    }
     ui.pause();
 }
-
 void GameSystem::actionFightAndroid() {
     for (Entity* e : currentRoom->getEntities()) {
            if (Android* a = dynamic_cast<Android*>(e); a && !a->isOff()) {
@@ -386,11 +452,29 @@ void GameSystem::menuCombat(Android* android) {
             ui.showMessage(android->getName() + " hits you for " + std::to_string(static_cast<int>(damage)) + " damage!");
             logger.log(android->getName() + " dealt " + std::to_string(static_cast<int>(damage)) + " damage.");
         } else if (option == 2) {
-            // crear verificacion de que el personaje tiene una llave de desactivación en la mochila
-            android->turnOff();
-            ui.showMessage(android->getName() + " deactivated!");
-            logger.log("Android " + android->getName() + " deactivated.");
-
+            // Buscar llave de desactivación en la mochila
+            bool hasKey = false;
+            int keyIdx = -1;
+            auto& items = player->getBackpack()->getItems();
+            for (int i = 0; i < (int)items.size(); i++) {
+                if (dynamic_cast<DeactivationKey*>(items[i])) {
+                    hasKey = true;
+                    keyIdx = i;
+                    break;
+                }
+            }
+            if (!hasKey) {
+                ui.showMessage("You don't have a deactivation key!");
+                logger.log("Player tried to use key but had none.");
+            } else {
+                android->turnOff();
+                // La llave se consume
+                delete items[keyIdx];
+                // Necesitamos removeItem en Backpack también
+                player->getBackpack()->removeItem(keyIdx);
+                ui.showMessage(android->getName() + " deactivated!");
+                logger.log("Android " + android->getName() + " deactivated with key.");
+            }
         } else {
             ui.showMessage("You retreat.");
             logger.log("Player retreated from " + android->getName());
@@ -421,7 +505,18 @@ void GameSystem::menuBossFight() {
         });
         int option = ui.readOption(1, 2);
         if (option == 1) {
-            // crear verificacion de que el personaje tiene la pistola laser en la mochila
+            // Verificar que tiene la laser gun
+            bool hasGun = false;
+            auto& items = player->getBackpack()->getItems();
+            for (auto* it : items) {
+                if (dynamic_cast<LaserGun*>(it)) { hasGun = true; break; }
+            }
+            if (!hasGun) {
+                ui.showMessage("You need the Laser Gun to fight the alien!");
+                logger.log("Player tried to attack alien without laser gun.");
+                ui.pause();
+                continue;   // vuelve al inicio del while
+            }
             double dmg = (difficulty == "Difficult") ? 18.0 : (difficulty == "Medium") ? 25.0 : 35.0;
             alien.lowerHealth(dmg);
             ui.showMessage("You fire! Alien takes " + std::to_string(static_cast<int>(dmg)) + " damage.");

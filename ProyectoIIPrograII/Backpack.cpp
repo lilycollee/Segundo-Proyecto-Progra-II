@@ -9,6 +9,14 @@ std::string Backpack::getName() const {
 void Backpack::add(Item* element) {
     items.push_back(element);
 }
+void Backpack::removeItem(int index) {
+    if (index >= 0 && index < (int)items.size()) {
+        items.erase(items.begin() + index);
+    }
+}
+const std::vector<Item*>& Backpack::getItems() const {
+    return items;
+}
 std::string Backpack::toString(int nivel = 0) {
     std::stringstream s;
     s << "|" << std::string(nivel * 2, '-') << "[" << name << "] \n";

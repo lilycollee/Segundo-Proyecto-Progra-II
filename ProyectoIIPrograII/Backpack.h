@@ -10,6 +10,8 @@ public:
     Backpack();
     std::string getName() const override;
     void add(Item* item);
+    void removeItem(int index);
+    const std::vector<Item*>& getItems() const;
     std::string toString(int nivel) override;
     ~Backpack();
 };

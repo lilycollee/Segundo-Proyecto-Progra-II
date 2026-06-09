@@ -25,6 +25,7 @@ public:
     void setConnections(std::vector<Room*> conns);
     void addEntity(Entity* e);
     void addItem(Item* item);
+    void removeItem(int index);
 
     // --------------- Printing Method ---------------
     std::string singleSidedPrinting();

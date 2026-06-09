@@ -32,6 +32,9 @@ void Player::setOxygen(int o) {
         notify("PLAYER_DEAD");
     }
 }
+Backpack* Player::getBackpack() const {
+    return myBackPack.get();
+}
 std::string Player::showInformation() const {
     std::stringstream ss;
     ss << name << " has: \n";

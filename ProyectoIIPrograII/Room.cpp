@@ -37,7 +37,11 @@ void Room::addEntity(Entity* e) {
 void Room::addItem(Item* item) {
     trunk.push_back(item);
 }
-
+void Room::removeItem(int index) {
+    if (index >= 0 && index < (int)trunk.size()) {
+        trunk.erase(trunk.begin() + index);
+    }
+}
 std::string Room::singleSidedPrinting() {
     std::stringstream s;
     s << "Currente location: [" << name << "]\n";

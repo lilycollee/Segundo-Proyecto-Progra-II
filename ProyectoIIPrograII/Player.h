@@ -25,9 +25,8 @@ public:
     void setEnergy(int energy);
     double getOxygen() const;
     void setOxygen(int oxygen);
+    Backpack* getBackpack() const;
     std::string showInformation() const;
-
-    //-------------- Others  --------------
     std::string getName() const override;
     void setName(std::string name);
     std::string showEntity() const override;
