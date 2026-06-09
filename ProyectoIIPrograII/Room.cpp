@@ -68,11 +68,7 @@ std::string Room::printRooms() {
         s << "  None\n";
     } else {
         for (size_t i = 0; i < connections.size(); i++) {
-            if (i == connections.size() - 1) {
-                s << "  └──> [" << connections[i]->getName() << "]\n";
-            } else {
-                s << "  ├──> [" << connections[i]->getName() << "]\n";
-            }
+            s << "  |--> [" << connections[i]->getName() << "]\n";
         }
     }
     s << "\nItems:\n";
@@ -80,11 +76,7 @@ std::string Room::printRooms() {
         s << "  None\n";
     } else {
         for (size_t i = 0; i < itemCount; i++) {
-            if (i == itemCount - 1) {
-                s << "  └──> " << trunk[i]->getName() << "\n";
-            } else {
-                s << "  ├──> " << trunk[i]->getName() << "\n";
-            }
+            s << "  |--> " << trunk[i]->getName() << "\n";
         }
     }
     s << "\nEntities:\n";
@@ -92,11 +84,7 @@ std::string Room::printRooms() {
         s << "  None\n";
     } else {
         for (size_t i = 0; i < entityCount; i++) {
-            if (i == entityCount - 1) {
-                s << "  └──> " << entity[i]->getName() << "\n";
-            } else {
-                s << "  ├──> " << entity[i]->getName() << "\n";
-            }
+            s << "  |--> " << entity[i]->getName() << "\n";
         }
     }
     return s.str();
