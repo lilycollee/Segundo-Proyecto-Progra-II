@@ -52,34 +52,20 @@ std::string Player::showEntity() const {
     return ss.str();
 }
 void Player::refillOxygen(OxygenTank* oxyT) {
-    if (oxygen < 75) {
-        if (oxyT->getActive()) {
-            if (oxygen + oxyT->getCapacity() > 100) {
-                oxygen = 100;
-            } else {
-                oxygen += oxyT->getCapacity();
-            }
-        	oxyT->setActive(false); //deshabilita el tanque
-			oxyT->setCapacity(0);
-		}
-		//el tanque de oxigeno ya ha sido usado
+    if (oxyT->getActive()) {
+        oxygen = std::min(100.0, oxygen + oxyT->getCapacity());
+        notify("OXYGEN_CHANGED", oxygen);
+        oxyT->setActive(false);
+        oxyT->setCapacity(0);
     }
-	//el oxigeno es alto, evito desperdicio
 }
 void Player::useMedicalKit(MedicalEquipment* kit) {
-    if (energy < 75) {
-        if (kit->getActive()) {
-            if (energy + kit->getCapacity() > 100) {
-                energy = 100 ;
-            } else {
-                energy += kit->getCapacity();
-            }
-            kit->setActive(false); // el kit ya fue usado
-			kit->setCapacity(0);
-        }
-		//el kit ya fue usado
+    if (kit->getActive()) {
+        energy = std::min(100, energy + kit->getCapacity());
+        notify("ENERGY_CHANGED", energy);
+        kit->setActive(false);
+        kit->setCapacity(0);
     }
-	//tiene suficiente energia, evita desperdicio
 }
 void Player::pickUpItem(Item *item) {
     myBackPack->add(item);

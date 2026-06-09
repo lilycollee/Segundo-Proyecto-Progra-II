@@ -664,24 +664,32 @@ void GameSystem::runSimulation() {
             player->pickUpItem(item);
             currentRoom->removeItem(0);
         }
-        // --- Usar consumibles si está bajo ---
-        auto& items = player->getBackpack()->getItems();
-        for (int i = 0; i < (int)items.size(); i++) {
-            if (auto* oxy = dynamic_cast<OxygenTank*>(items[i])) {
-                if (oxy->getActive() && player->getOxygen() < 60) {
-                    player->refillOxygen(oxy);
-                    ui.showMessage("  >> Uses oxygen tank. Oxygen: " + std::to_string(static_cast<int>(player->getOxygen())) + "%");
-                    logger.log("SIM used OxygenTank.");
-                }
-            } else if (auto* kit = dynamic_cast<MedicalEquipment*>(items[i])) {
-                if (kit->getActive() && player->getEnergy() < 60) {
-                    player->useMedicalKit(kit);
-                    ui.showMessage("  >> Uses med kit. Energy: " + std::to_string(player->getEnergy()) + "%");
-                    logger.log("SIM used MedKit.");
+        // ------------ Usar consumibles si está bajo ------------
+        bool usedSomething = true;
+        while (usedSomething) {
+            usedSomething = false;
+            auto& items = player->getBackpack()->getItems();
+            for (int i = 0; i < (int)items.size(); i++) {
+                if (auto* oxy = dynamic_cast<OxygenTank*>(items[i])) {
+                    if (oxy->getActive() && player->getOxygen() < 75) {
+                        player->refillOxygen(oxy);
+                        ui.showMessage("  >> Uses oxygen tank. Oxygen: " + std::to_string(static_cast<int>(player->getOxygen())) + "%");
+                        logger.log("SIM used OxygenTank.");
+                        usedSomething = true;
+                        break; // reinicia el for desde el principio
+                    }
+                } else if (auto* kit = dynamic_cast<MedicalEquipment*>(items[i])) {
+                    if (kit->getActive() && player->getEnergy() < 75) {
+                        player->useMedicalKit(kit);
+                        ui.showMessage("  >> Uses med kit. Energy: " + std::to_string(player->getEnergy()) + "%");
+                        logger.log("SIM used MedKit.");
+                        usedSomething = true;
+                        break;
+                    }
                 }
             }
         }
-        // --- Pelear androides activos en el cuarto ---
+        // ------------ Pelear androides activos en el cuarto ------------
         for (Entity* e : currentRoom->getEntities()) {
             if (Android* a = dynamic_cast<Android*>(e); a && !a->isOff()) {
                 // Buscar llave de desactivación
@@ -717,13 +725,13 @@ void GameSystem::runSimulation() {
         if (gameOver) {
             break;
         }
-        // --- Reactor Core: pelear al alien ---
+        // ------------ Reactor Core: pelear al alien ------------
         if (currentRoom->getName() == "Reactor Core") {
             ui.showMessage("  >> Entering boss fight!");
             menuBossFight();
             break;
         }
-        // --- Decidir hacia dónde moverse ---
+        // ------------ Decidir hacia dónde moverse ------------
         auto conns = currentRoom->getConnections();
         if (conns.empty()) {
             ui.showMessage("  >> No exits. Simulation stuck.");

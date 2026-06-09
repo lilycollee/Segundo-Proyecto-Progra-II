@@ -31,7 +31,7 @@ std::string Alien::showEntity() const {
 double Alien::attack() {
     // The boss hits harder than the androids
     static std::mt19937 gen(std::time(nullptr));
-    std::uniform_real_distribution<double> dist(25, 45);
+    std::uniform_real_distribution<double> dist(25, 35);
     return dist(gen);
 }
 
