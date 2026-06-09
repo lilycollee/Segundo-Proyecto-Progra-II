@@ -44,6 +44,10 @@ private:
     void checkState();
     void endGame();
 
+    // ----------- Simulación -----------
+    void menuSimulation();
+    void runSimulation();
+
 public:
     GameSystem();
     ~GameSystem();

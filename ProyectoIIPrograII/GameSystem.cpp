@@ -5,6 +5,7 @@
 #include "DeactivationKey.h"
 #include "LaserGun.h"
 #include <iomanip>
+#include <random>
 #include <sstream>
 GameSystem::GameSystem() {
     this->player = nullptr;
@@ -30,12 +31,13 @@ void GameSystem::menuMain() {
     do {
         ui.showBox("VOID PROTOCOL", {
             "1. Start simulation",
-            "2. Manual game",
-            "3. Exit the game",
+            "2. Auto simulation",
+            "3. Manual game",
+            "4. Exit the game",
             "",
             "Choose option..."
         });
-        option = ui.readOption(1, 3);
+        option = ui.readOption(1, 4);
         switch (option) {
             case 1:
                 loadWorld();
@@ -48,14 +50,17 @@ void GameSystem::menuMain() {
                 menuGame();
                 break;
             case 2:
-                menuManual();
+                menuSimulation();
                 break;
             case 3:
+                menuManual();
+                break;
+            case 4:
                 ui.showMessage("Goodbye, astronaut.");
                 break;
             default: ;
         }
-    } while (option != 3);
+    } while (option != 4);
 }
 
 // ------------------ Menú juego manual ------------------
@@ -589,4 +594,171 @@ void GameSystem::endGame() {
     logger.writeReport(report.str());
     ui.showMessage("Report saved to report.txt");
     ui.showMessage("Event log  saved to log.txt");
+    // ------------- Mostrar bitácora completa en consola -------------
+    ui.showSeparator();
+    ui.showMessage("=== EVENT LOG ===\n");
+    std::ifstream logIn("log.txt");
+    if (logIn.is_open()) {
+        std::string line;
+        while (std::getline(logIn, line)) {
+            ui.showMessage(line);
+        }
+        logIn.close();
+    } else {
+        ui.showMessage("[Could not read log.txt]");
+    }
+    ui.showSeparator();
+    ui.pause();
+}
+
+// ------------------ Menú de simulación ------------------
+void GameSystem::menuSimulation() {
+    ui.showBox("AUTO SIMULATION", {
+        "The ship will be explored automatically.",
+        "Watch the crew navigate the USS Erebus.",
+        "",
+        "Select difficulty:",
+        "1. Easy",
+        "2. Medium",
+        "3. Difficult",
+        "",
+        "Choose option..."
+    });
+    int opt = ui.readOption(1, 3);
+    if (opt == 1) {
+        difficulty = "Easy";
+    } else if (opt == 2) {
+        difficulty = "Medium";
+    } else {
+        difficulty = "Difficult";
+    }
+    loadWorld();
+    if (!player) {
+        player = new Player("SIM-Unit");
+    }
+    player->addObserver(&hud);
+    player->addObserver(&logger);
+    logger.log("AUTO SIMULATION started. Difficulty: " + difficulty);
+    ui.showMessage("\n>>> AUTO SIMULATION STARTING <<<\n");
+    ui.pause();
+    runSimulation();
+}
+
+// ------------------ Lógica de simulación ------------------
+void GameSystem::runSimulation() {
+    std::mt19937 rng(std::time(nullptr)); // Semilla aleatoria
+    gameOver  = false;
+    playerWon = false;
+    int stepLimit = 50;
+    int step = 0;
+    while (!gameOver && step < stepLimit) {
+        step++;
+        ui.showSeparator();
+        ui.showMessage("[ STEP " + std::to_string(step) + " ] Location: " + currentRoom->getName());
+        ui.showMessage("  Energy: " + std::to_string(player->getEnergy()) + "%  Oxygen: " + std::to_string(static_cast<int>(player->getOxygen())) + "%");
+        // --- Recoger todos los items del cuarto ---
+        while (!currentRoom->getTrunk().empty()) {
+            Item* item = currentRoom->getTrunk()[0];
+            ui.showMessage("  >> Picks up: " + item->getName());
+            logger.log("SIM picked up: " + item->getName());
+            player->pickUpItem(item);
+            currentRoom->removeItem(0);
+        }
+        // --- Usar consumibles si está bajo ---
+        auto& items = player->getBackpack()->getItems();
+        for (int i = 0; i < (int)items.size(); i++) {
+            if (auto* oxy = dynamic_cast<OxygenTank*>(items[i])) {
+                if (oxy->getActive() && player->getOxygen() < 60) {
+                    player->refillOxygen(oxy);
+                    ui.showMessage("  >> Uses oxygen tank. Oxygen: " + std::to_string(static_cast<int>(player->getOxygen())) + "%");
+                    logger.log("SIM used OxygenTank.");
+                }
+            } else if (auto* kit = dynamic_cast<MedicalEquipment*>(items[i])) {
+                if (kit->getActive() && player->getEnergy() < 60) {
+                    player->useMedicalKit(kit);
+                    ui.showMessage("  >> Uses med kit. Energy: " + std::to_string(player->getEnergy()) + "%");
+                    logger.log("SIM used MedKit.");
+                }
+            }
+        }
+        // --- Pelear androides activos en el cuarto ---
+        for (Entity* e : currentRoom->getEntities()) {
+            if (Android* a = dynamic_cast<Android*>(e); a && !a->isOff()) {
+                // Buscar llave de desactivación
+                bool hasKey = false;
+                int keyIdx = -1;
+                auto& inv = player->getBackpack()->getItems();
+                for (int i = 0; i < (int)inv.size(); i++) {
+                    if (dynamic_cast<DeactivationKey*>(inv[i])) {
+                        hasKey = true; keyIdx = i; break;
+                    }
+                }
+                if (hasKey) {
+                    // Desactivar con llave
+                    ui.showMessage("  >> Uses key on " + a->getName());
+                    logger.log("SIM deactivated " + a->getName() + " with key.");
+                    a->turnOff();
+                    delete inv[keyIdx];
+                    player->getBackpack()->removeItem(keyIdx);
+                } else {
+                    // Aguantar el golpe
+                    double damage = 0;
+                    a->attack(damage);
+                    if (difficulty == "Medium")   damage *= 1.3;
+                    if (difficulty == "Difficult") damage *= 1.7;
+                    int newE = player->getEnergy() - static_cast<int>(damage);
+                    player->setEnergy(newE < 0 ? 0 : newE);
+                    ui.showMessage("  >> " + a->getName() + " hits for " + std::to_string(static_cast<int>(damage)) + " dmg.");
+                    logger.log("SIM took " + std::to_string(static_cast<int>(damage)) + " damage from " + a->getName());
+                }
+            }
+        }
+        checkState();
+        if (gameOver) {
+            break;
+        }
+        // --- Reactor Core: pelear al alien ---
+        if (currentRoom->getName() == "Reactor Core") {
+            ui.showMessage("  >> Entering boss fight!");
+            menuBossFight();
+            break;
+        }
+        // --- Decidir hacia dónde moverse ---
+        auto conns = currentRoom->getConnections();
+        if (conns.empty()) {
+            ui.showMessage("  >> No exits. Simulation stuck.");
+            logger.log("SIM stuck — no exits.");
+            break;
+        }
+        // Si tiene laser gun avanza siempre hacia el reactor, si no, elige aleatoriamente entre las conexiones disponibles
+        bool hasGun = false;
+        for (auto* it : player->getBackpack()->getItems()) {
+            if (dynamic_cast<LaserGun*>(it)) {
+                hasGun = true; break;
+            }
+        }
+        Room* next = nullptr;
+        if (hasGun) {
+            // Avanza hacia la última conexión (más profunda en el mapa)
+            next = conns.back();
+        } else {
+            // Movimiento aleatorio
+            std::uniform_int_distribution<int> dist(0, (int)conns.size() - 1);
+            next = conns[dist(rng)];
+        }
+        currentRoom = next;
+        int drop = (difficulty == "Difficult") ? 12 : (difficulty == "Medium") ? 8 : 5;
+        int newOxy = static_cast<int>(player->getOxygen()) - drop;
+        player->setOxygen(newOxy < 0 ? 0 : newOxy);
+        ui.showMessage("  >> Moves to: " + currentRoom->getName());
+        logger.log("SIM moved to: " + currentRoom->getName());
+        checkState();
+        ui.pause(); // Pausa breve entre pasos para que no sea tan cargado
+    }
+    if (step >= stepLimit && !gameOver) {
+        logger.log("SIM reached step limit without conclusion.");
+        ui.showMessage("\n[ SIMULATION TIMEOUT — no conclusion reached ]\n");
+        gameOver = true;
+    }
+    endGame();
 }
