@@ -11,6 +11,8 @@ private:
     void printBottom() const;
     //construye una barra (con caracteres) para mostrar un porcentaje de uso
     std::string percentageBar(const std::string& label, double value, int width = 20) const;
+    void onEvent(const std::string &event, double value) override;
+
 public:
     Interface(int width = 33);
 
@@ -25,5 +27,7 @@ public:
     int readOption(int min, int max) const;
     std::string readString(const std::string& prompt) const;
     void pause() const;
+
+    ~Interface() override = default;
 };
 #endif //PROYECTOIIPROGRAII_INTERFACE_H

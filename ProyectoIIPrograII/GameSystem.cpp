@@ -1,7 +1,14 @@
 #include "GameSystem.h"
+#include "WorldLoader.h"
 #include <iomanip>
 #include <sstream>
-GameSystem::GameSystem() : player(nullptr), currentRoom(nullptr), gameOver(false), playerWon(false), difficulty("Easy"), hud(), ui() {}
+GameSystem::GameSystem() {
+    this->player = nullptr;
+    this->currentRoom = nullptr;
+    this->gameOver = false;
+    this->playerWon = false;
+    this->difficulty = "Easy";
+}
 GameSystem::~GameSystem() {
     for (Room* r : allRooms) {
         delete r;

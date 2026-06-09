@@ -38,8 +38,12 @@ add_executable(ProyectoIIPrograII main.cpp
         IObserver.h
         IObservable.cpp
         IObservable.h
+        GameLogger.cpp
+        GameLogger.h
         GameSystem.cpp
         GameSystem.h
         Interface.cpp
         Interface.h
+        WorldLoader.cpp
+        WorldLoader.h
 )
