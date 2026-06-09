@@ -25,17 +25,23 @@ std::vector<std::string> WorldLoader::splitLine(const std::string& line) {
     return tokens;
 }
 Android::Type WorldLoader::parseAndroidType(const std::string& s) {
-    if (s == "Easy")   return Android::Type::Easy;
-    if (s == "Medium") return Android::Type::Medium;
-    if (s == "Hard")   return Android::Type::Hard;
+    if (s == "Easy") {
+        return Android::Type::Easy;
+    }
+    if (s == "Medium") {
+        return Android::Type::Medium;
+    }
+    if (s == "Hard") {
+        return Android::Type::Hard;
+    }
     throw std::invalid_argument("Unknown android type: " + s);
 }
 Room* WorldLoader::loadWorld(std::vector<Room*>& allRooms) {
     // Habitaciones/Rooms
     {
-        std::ifstream file("data/rooms.txt");
+        std::ifstream file("rooms.txt");
         if (!file.is_open()) {
-            throw std::runtime_error("Cannot open data/rooms.txt");
+            throw std::runtime_error("Cannot open rooms.txt");
         }
         std::string line;
         while (std::getline(file, line)) {
@@ -53,9 +59,9 @@ Room* WorldLoader::loadWorld(std::vector<Room*>& allRooms) {
     }
     //Conecciones de las habitaciones/Rooms
     {
-        std::ifstream file("data/connections.txt");
+        std::ifstream file("connections.txt");
         if (!file.is_open()) {
-            throw std::runtime_error("Cannot open data/connections.txt");
+            throw std::runtime_error("Cannot open connections.txt");
         }
         std::string line;
         while (std::getline(file, line)) {
@@ -77,9 +83,9 @@ Room* WorldLoader::loadWorld(std::vector<Room*>& allRooms) {
     }
     //Androides
     {
-        std::ifstream file("data/androids.txt");
+        std::ifstream file("androids.txt");
         if (!file.is_open()) {
-            throw std::runtime_error("Cannot open data/androids.txt");
+            throw std::runtime_error("Cannot open androids.txt");
         }
         std::string line;
         while (std::getline(file, line)) {
@@ -100,9 +106,9 @@ Room* WorldLoader::loadWorld(std::vector<Room*>& allRooms) {
     }
     //Items
     {
-        std::ifstream file("data/items.txt");
+        std::ifstream file("items.txt");
         if (!file.is_open()) {
-            throw std::runtime_error("Cannot open data/items.txt");
+            throw std::runtime_error("Cannot open items.txt");
         }
         std::string line;
         while (std::getline(file, line)) {
@@ -146,7 +152,7 @@ Room* WorldLoader::loadWorld(std::vector<Room*>& allRooms) {
         }
     }
     if (allRooms.empty()) {
-        throw std::runtime_error("No rooms were loaded from data/rooms.txt");
+        throw std::runtime_error("No rooms were loaded from rooms.txt");
     }
     return allRooms[0]; // room 0 is always the starting room
 }

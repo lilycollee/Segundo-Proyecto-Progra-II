@@ -1,5 +1,4 @@
 #include "GameLogger.h"
-#include "GameLogger.h"
 #include <iostream>
 #include <ctime>
 
