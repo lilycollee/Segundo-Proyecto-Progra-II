@@ -113,7 +113,7 @@ ProyectoIIPrograII/
  AN-408(Med)     O2 + Key + MedKit
  AdvMedKit
                       |
-                 [Bridge 7]  ← AN-512 (Hard), Plasma Rifle X9 ⭐
+                 [Bridge 7]  ← AN-512 (Hard), Plasma Rifle X9 
                       |
                  [Corridor C 8]  ← AN-603 (Hard)
                       |
