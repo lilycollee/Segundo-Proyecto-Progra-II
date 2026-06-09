@@ -1,10 +1,7 @@
 #include "GameSystem.h"
-#include "GameSystem.h"
-#include <iostream>
 #include <iomanip>
 #include <sstream>
-
-GameSystem::GameSystem() : player(nullptr), currentRoom(nullptr), gameOver(false), playerWon(false), difficulty("Easy") {}
+GameSystem::GameSystem() : player(nullptr), currentRoom(nullptr), gameOver(false), playerWon(false), difficulty("Easy"), hud(), ui() {}
 GameSystem::~GameSystem() {
     for (Room* r : allRooms) {
         delete r;
@@ -45,6 +42,7 @@ void GameSystem::menuMain() {
             case 3:
                 ui.showMessage("Goodbye, astronaut.");
                 break;
+            default: ;
         }
     } while (option != 3);
 }
@@ -77,13 +75,15 @@ void GameSystem::menuManual() {
                 ui.pause();
                 break;
             }
-            case 2:
+            case 2: {
                 menuDifficulty();
                 break;
-            case 3:
+            }
+            case 3: {
                 menuItems();
                 break;
-            case 4:
+            }
+            case 4: {
                 loadWorld();
                 if (!player) {
                     player = new Player();
@@ -93,6 +93,8 @@ void GameSystem::menuManual() {
                 logger.log("Manual game started. Player: " + player->getName() + " | Difficulty: " + difficulty);
                 menuGame();
                 break;
+            }
+            default:;
         }
     } while (option != 4);
 }
@@ -112,23 +114,28 @@ void GameSystem::menuDifficulty() {
         });
         option = ui.readOption(1, 4);
         switch (option) {
-            case 1:
+            case 1: {
                 difficulty = "Easy";
                 ui.showMessage("Difficulty: Easy");
                 ui.pause();
                 break;
-            case 2:
+            }
+            case 2: {
                 difficulty = "Medium";
                 ui.showMessage("Difficulty: Medium");
                 ui.pause();
                 break;
-            case 3:
+            }
+            case 3: {
                 difficulty = "Difficult";
                 ui.showMessage("Difficulty: Difficult");
                 ui.pause();
                 break;
-            case 4:
+            }
+            case 4: {
                 break;
+            }
+            default: ;
         }
     } while (option != 4);
 }
@@ -150,17 +157,22 @@ void GameSystem::menuItems() {
         });
         option = ui.readOption(1, 4);
         switch (option) {
-            case 1:
+            case 1: {
                 menuItemType("Consumable");
                 break;
-            case 2:
+            }
+            case 2: {
                 menuItemType("Weapon");
                 break;
-            case 3:
+            }
+            case 3: {
                 menuItemType("Keys");
                 break;
-            case 4:
+            }
+            case 4: {
                 break;
+            }
+            default:;
         }
     } while (option != 4);
 }
@@ -233,30 +245,38 @@ void GameSystem::menuGame() {
         });
         int option = ui.readOption(0, 6);
         switch (option) {
-            case 1:
+            case 1: {
                 actionMove();
                 break;
-            case 2:
+            }
+            case 2: {
                 actionLookAround();
                 break;
-            case 3:
+            }
+            case 3: {
                 actionPickUpItem();
                 break;
-            case 4:
+            }
+            case 4: {
                 actionUseItem();
                 break;
-            case 5:
+            }
+            case 5: {
                 actionFightAndroid();
                 break;
-            case 6:
+            }
+            case 6: {
                 ui.showMessage(player->showInventory());
                 ui.pause();
                 break;
-            case 0:
+            }
+            case 0: {
                 logger.log("Player abandoned mission.");
                 ui.showMessage("Returning to main menu...");
                 ui.pause();
                 return;
+            }
+            default:;
         }
         checkState();
     }

@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Room.h"
 #include "Android.h"
+#include "GameLogger.h"
 #include "Alien.h"
 #include "Interface.h"
 class GameSystem {
@@ -15,7 +16,7 @@ private:
     Room* currentRoom;
     std::vector<Room*> allRooms;
     Interface hud;
-    //GameLogger logger;
+    GameLogger logger;
     Interface ui;
     bool gameOver;
     bool playerWon;

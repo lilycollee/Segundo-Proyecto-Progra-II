@@ -12,8 +12,6 @@ private:
     //construye una barra (con caracteres) para mostrar un porcentaje de uso
     std::string percentageBar(const std::string& label, double value, int width = 20) const;
 public:
-    void onEvent(const std::string& event, double value = 0) override;
-
     Interface(int width = 33);
 
     // ----------- Impresión -----------

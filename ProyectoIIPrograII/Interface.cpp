@@ -36,7 +36,7 @@ std::string Interface::percentageBar(const std::string& label, double value, int
     oss << std::left << std::setw(10) << label << " " << bar << " " << static_cast<int>(value) << "%";
     return oss.str();
 }
-void Interface::onEvent(const std::string& event, double value) {
+/*void Interface::onEvent(const std::string& event, double value) {  lo pase hacia GameLogger
     if (event == "ENERGY_CHANGED") {
         std::cout << "[STATUS] " << percentageBar("Energy", value) << "\n";
     } else if (event == "OXYGEN_CHANGED") {
@@ -45,7 +45,7 @@ void Interface::onEvent(const std::string& event, double value) {
         std::cout << "\n[!!] CRITICAL FAILURE: Player has died.\n";
         std::cout << "     The mission ends here.\n\n";
     }
-}
+}*/
 
 // ------------------------ Impresión ------------------------
 void Interface::showBanner() const {
@@ -84,7 +84,7 @@ void Interface::showSeparator() const {
 
 // ------------------------ Lectura ------------------------
 int Interface::readOption(int min, int max) const {
-    int value;
+    int value = 0;
     while (true) {
         std::cout << "> ";
         if (std::cin >> value && value >= min && value <= max) {
