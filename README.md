@@ -182,7 +182,7 @@ Ambos archivos se generan automáticamente al ejecutar el programa. La bitácora
 
 ---
 
-## Autora
+## Autoras
 
 Yency Amador Centeno & Edith Nicole Bonilla Martínez — Universidad Nacional de Costa Rica  
 Curso: EIF204 Programación II, 2026
