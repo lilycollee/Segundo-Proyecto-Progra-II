@@ -38,4 +38,8 @@ add_executable(ProyectoIIPrograII main.cpp
         IObserver.h
         IObservable.cpp
         IObservable.h
+        Interface.cpp
+        Interface.h
+        System.cpp
+        System.h
 )

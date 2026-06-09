@@ -1,7 +1,7 @@
 #ifndef PROYECTOIIPROGRAII_IOBSERVABLE_H
 #define PROYECTOIIPROGRAII_IOBSERVABLE_H
 #include "IObserver.h"
-class IObservable : public IObserver {
+class IObservable {
 public:
     virtual void addObserver(IObserver* observer) = 0;
     virtual void removeObserver(IObserver* observer) = 0;

@@ -11,7 +11,7 @@ Player::Player() {
 Player::Player(std::string name_) : name(name_) {
     energy = 100;
     oxygen = 100;
-    myBackPack = new Backpack();
+    myBackPack = std::make_unique<Backpack>();
     myBackPack->add(new OxygenTank("Oxygen Tank",30));
 }
 Player::~Player() {
