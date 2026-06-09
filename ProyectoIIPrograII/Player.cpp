@@ -58,9 +58,11 @@ std::string Player::showEntity() const {
 void Player::refillOxygen(OxygenTank* oxyT) {
     if (oxygen < 75) {
         if (oxyT->getActive()) {
-        	oxygen+oxyT->getCapacity() > 100?
-				oxygen = 100 : oxygen+=oxyT->getCapacity();
-
+            if (oxygen + oxyT->getCapacity() > 100) {
+                oxygen = 100;
+            } else {
+                oxygen += oxyT->getCapacity();
+            }
         	oxyT->setActive(false); //deshabilita el tanque
 			oxyT->setCapacity(0);
 		}
@@ -72,8 +74,11 @@ void Player::refillOxygen(OxygenTank* oxyT) {
 void Player::useMedicalKit(MedicalEquipment* kit) {
     if (energy < 75) {
         if (kit->getActive()) {
-            energy + kit->getCapacity() > 100 ?
-				energy = 100 : energy += kit->getCapacity();
+            if (energy + kit->getCapacity() > 100) {
+                energy = 100 ;
+            } else {
+                energy += kit->getCapacity();
+            }
             kit->setActive(false); // el kit ya fue usado
 			kit->setCapacity(0);
         }
@@ -89,9 +94,6 @@ void Player::pickUpItem(Item *item) {
 std::string Player::showInventory() const {
     return myBackPack->toString(0);
 }
-
-
-
 void Player::addObserver(IObserver* obs) {
     observers.push_back(obs);
 }
@@ -103,4 +105,3 @@ void Player::notify(const std::string& event, double value) {
         obs->onEvent(event, value);
     }
 }
-
