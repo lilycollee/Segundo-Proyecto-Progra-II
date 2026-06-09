@@ -19,6 +19,8 @@ public:
     std::string getDescription();
     int getOxygen();
     std::vector<Room*> getConnections();
+    std::vector<Item*> getTrunk();
+    std::vector<Entity*> getEntities();
 
     void setConnections(std::vector<Room*> conns);
     void addEntity(Entity* e);

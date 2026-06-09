@@ -15,13 +15,19 @@ std::string Room::getName() {
 std::string Room::getDescription() {
     return this->description;
 }
-std::vector<Room*> Room::getConnections() {
-    return this->connections;
-}
 int Room::getOxygen() {
     return this->oxygen;
 }
+std::vector<Room*> Room::getConnections() {
+    return this->connections;
+}
+std::vector<Item*> Room::getTrunk() {
+    return this->trunk;
+}
 
+std::vector<Entity *> Room::getEntities() {
+    return this->entity;
+}
 void Room::setConnections(std::vector<Room*> conns) {
     connections = conns;
 }

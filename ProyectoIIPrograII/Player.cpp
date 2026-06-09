@@ -7,7 +7,6 @@ Player::Player() {
     myBackPack = std::make_unique<Backpack>();
     myBackPack->add(new OxygenTank("Oxygen Tank",30));
 }
-
 Player::Player(std::string name_) : name(name_) {
     energy = 100;
     oxygen = 100;
@@ -17,7 +16,6 @@ Player::Player(std::string name_) : name(name_) {
 Player::~Player() {
     std::cout << name << " is dead!! X_X" << std::endl;
 }
-
 int Player::getEnergy() const  { return energy; }
 void Player::setEnergy(int e) {
     this->energy = e;
@@ -26,7 +24,6 @@ void Player::setEnergy(int e) {
         notify("PLAYER_DEAD");
     }
 }
-
 double Player::getOxygen() const  { return oxygen; }
 void Player::setOxygen(int o) {
     this->oxygen = o;
@@ -35,7 +32,6 @@ void Player::setOxygen(int o) {
         notify("PLAYER_DEAD");
     }
 }
-
 std::string Player::showInformation() const {
     std::stringstream ss;
     ss << name << " has: \n";
@@ -43,10 +39,8 @@ std::string Player::showInformation() const {
     ss << "Oxygen: " << oxygen << "%\n";
     return ss.str();
 }
-
 std::string Player::getName() const  { return name; }
 void Player::setName(std::string name_) { this->name = name_; }
-
 std::string Player::showEntity() const {
     std::stringstream ss;
     ss << R"(   (") )" << std::endl;
@@ -54,7 +48,6 @@ std::string Player::showEntity() const {
     ss << R"(   / \)";
     return ss.str();
 }
-
 void Player::refillOxygen(OxygenTank* oxyT) {
     if (oxygen < 75) {
         if (oxyT->getActive()) {
@@ -70,7 +63,6 @@ void Player::refillOxygen(OxygenTank* oxyT) {
     }
 	//el oxigeno es alto, evito desperdicio
 }
-
 void Player::useMedicalKit(MedicalEquipment* kit) {
     if (energy < 75) {
         if (kit->getActive()) {
@@ -86,11 +78,9 @@ void Player::useMedicalKit(MedicalEquipment* kit) {
     }
 	//tiene suficiente energia, evita desperdicio
 }
-
 void Player::pickUpItem(Item *item) {
     myBackPack->add(item);
 }
-
 std::string Player::showInventory() const {
     return myBackPack->toString(0);
 }

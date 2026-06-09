@@ -1,0 +1,470 @@
+#include "GameSystem.h"
+#include "GameSystem.h"
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+
+GameSystem::GameSystem() : player(nullptr), currentRoom(nullptr), gameOver(false), playerWon(false), difficulty("Easy") {}
+GameSystem::~GameSystem() {
+    for (Room* r : allRooms) {
+        delete r;
+    }
+    delete player;
+}
+void GameSystem::start() {
+    ui.showBanner();
+    ui.pause();
+    menuMain();
+}
+// ------------------ Menú principal ------------------
+void GameSystem::menuMain() {
+    int option;
+    do {
+        ui.showBox("VOID PROTOCOL", {
+            "1. Start simulation",
+            "2. Manual game",
+            "3. Exit the game",
+            "",
+            "Choose option..."
+        });
+        option = ui.readOption(1, 3);
+        switch (option) {
+            case 1:
+                loadWorld();
+                if (!player) {
+                    player = new Player();
+                }
+                player->addObserver(&hud);
+                player->addObserver(&logger);
+                logger.log("Simulation started. Difficulty: " + difficulty);
+                menuGame();
+                break;
+            case 2:
+                menuManual();
+                break;
+            case 3:
+                ui.showMessage("Goodbye, astronaut.");
+                break;
+        }
+    } while (option != 3);
+}
+
+// ------------------ Menú juego manual ------------------
+void GameSystem::menuManual() {
+    int option;
+    do {
+        ui.showBox("MANUAL GAME", {
+            "1. Name your character",
+            "2. Select the game difficulty",
+            "3. Add items to the game",
+            "4. Return",
+            "",
+            "Choose option..."
+        });
+        option = ui.readOption(1, 4);
+        switch (option) {
+            case 1: {
+                std::string name = ui.readString("Enter your character name: ");
+                if (name.empty()) {
+                    name = "SpaceMan";
+                }
+                if (!player) {
+                    player = new Player(name);
+                } else {
+                    player->setName(name);
+                }
+                ui.showMessage("Name set to: " + name);
+                ui.pause();
+                break;
+            }
+            case 2:
+                menuDifficulty();
+                break;
+            case 3:
+                menuItems();
+                break;
+            case 4:
+                loadWorld();
+                if (!player) {
+                    player = new Player();
+                }
+                player->addObserver(&hud);
+                player->addObserver(&logger);
+                logger.log("Manual game started. Player: " + player->getName() + " | Difficulty: " + difficulty);
+                menuGame();
+                break;
+        }
+    } while (option != 4);
+}
+
+// ------------------ Menú de dificultad ------------------
+void GameSystem::menuDifficulty() {
+    ui.showNote("According to the chosen level, the monsters' health will increase or decrease!");
+    int option;
+    do {
+        ui.showBox("GAME DIFFICULTY", {
+            "1. Easy",
+            "2. Medium",
+            "3. Difficult",
+            "4. Return",
+            "",
+            "Choose option..."
+        });
+        option = ui.readOption(1, 4);
+        switch (option) {
+            case 1:
+                difficulty = "Easy";
+                ui.showMessage("Difficulty: Easy");
+                ui.pause();
+                break;
+            case 2:
+                difficulty = "Medium";
+                ui.showMessage("Difficulty: Medium");
+                ui.pause();
+                break;
+            case 3:
+                difficulty = "Difficult";
+                ui.showMessage("Difficulty: Difficult");
+                ui.pause();
+                break;
+            case 4:
+                break;
+        }
+    } while (option != 4);
+}
+
+// ------------------ Menú de Items------------------
+void GameSystem::menuItems() {
+    ui.showNote("The selected items will be added one per room in the game!");
+    int option;
+    do {
+        ui.showBox("ITEMS", {
+            "Select the type of item:",
+            "",
+            "1. Consumable",
+            "2. Weapon",
+            "3. Keys",
+            "4. Return",
+            "",
+            "Choose option..."
+        });
+        option = ui.readOption(1, 4);
+        switch (option) {
+            case 1:
+                menuItemType("Consumable");
+                break;
+            case 2:
+                menuItemType("Weapon");
+                break;
+            case 3:
+                menuItemType("Keys");
+                break;
+            case 4:
+                break;
+        }
+    } while (option != 4);
+}
+
+// ------------------ Menú tipo de Items ------------------
+void GameSystem::menuItemType(const std::string& type) {
+    int option;
+    do {
+        if (type == "Consumable") {
+            ui.showBox("CONSUMABLE", {"1. Oxygen Tank", "2. Medical Kit", "3. Return", "", "Choose option..."});
+            option = ui.readOption(1, 3);
+            if (option == 1) {
+                logger.log("Item queued: OxygenTank");
+                ui.showMessage("Oxygen Tank queued.");
+                ui.pause();
+            }
+            if (option == 2) {
+                logger.log("Item queued: MedKit");
+                ui.showMessage("Medical Kit queued.");
+                ui.pause();
+            }
+        } else if (type == "Weapon") {
+            ui.showBox("WEAPON", {"1. Laser Gun", "2. Return", "", "Choose option..."});
+            option = ui.readOption(1, 2);
+            if (option == 1) {
+                logger.log("Item queued: LaserGun");
+                ui.showMessage("Laser Gun queued.");
+                ui.pause();
+            }
+            if (option == 2) {
+                option = 3;
+            }
+        } else {
+            ui.showBox("KEYS", {"1. Deactivation Key", "2. Access Key", "3. Return", "", "Choose option..."});
+            option = ui.readOption(1, 3);
+            if (option == 1) {
+                logger.log("Item queued: DeactivationKey");
+                ui.showMessage("Deactivation Key queued.");
+                ui.pause();
+            }
+            if (option == 2) {
+                logger.log("Item queued: AccessKey");
+                ui.showMessage("Access Key queued.");
+                ui.pause();
+            }
+        }
+    } while (option != 3);
+}
+
+// ------------------ Menú de juego ------------------
+void GameSystem::menuGame() {
+    gameOver  = false;
+    playerWon = false;
+    while (!gameOver) {
+        ui.showBox("STATUS", {
+            "Location : " + currentRoom->getName(),
+            "Energy   : " + std::to_string(player->getEnergy()) + "%",
+            "Oxygen   : " + std::to_string(static_cast<int>(player->getOxygen())) + "%"
+        });
+        ui.showBox("ACTIONS", {
+            "1. Move",
+            "2. Look around",
+            "3. Pick up item",
+            "4. Use item",
+            "5. Fight android here",
+            "6. Show inventory",
+            "0. Abandon mission",
+            "",
+            "Choose option..."
+        });
+        int option = ui.readOption(0, 6);
+        switch (option) {
+            case 1:
+                actionMove();
+                break;
+            case 2:
+                actionLookAround();
+                break;
+            case 3:
+                actionPickUpItem();
+                break;
+            case 4:
+                actionUseItem();
+                break;
+            case 5:
+                actionFightAndroid();
+                break;
+            case 6:
+                ui.showMessage(player->showInventory());
+                ui.pause();
+                break;
+            case 0:
+                logger.log("Player abandoned mission.");
+                ui.showMessage("Returning to main menu...");
+                ui.pause();
+                return;
+        }
+        checkState();
+    }
+    endGame();
+}
+
+// ------------------ Acciones de juego ------------------
+void GameSystem::actionMove() {
+    auto connections = currentRoom->getConnections();
+    if (connections.empty()) {
+        ui.showMessage("No exits from this room.");
+        ui.pause();
+        return;
+    }
+    std::vector<std::string> lines;
+    for (int i = 0; i < (int)connections.size(); i++) {
+        lines.push_back(std::to_string(i + 1) + ". " + connections[i]->getName());
+    }
+    int cancelOpt = (int)connections.size() + 1;
+    lines.push_back(std::to_string(cancelOpt) + ". Cancel");
+    lines.push_back("");
+    lines.push_back("Choose option...");
+    ui.showBox("MOVE TO", lines);
+    int option = ui.readOption(1, cancelOpt);
+    if (option == cancelOpt) return;
+    currentRoom = connections[option - 1];
+    int drop = (difficulty == "Difficult") ? 12 : (difficulty == "Medium") ? 8 : 5;
+    int newOxy = static_cast<int>(player->getOxygen()) - drop;
+    player->setOxygen(newOxy < 0 ? 0 : newOxy);
+    logger.log("Player moved to: " + currentRoom->getName());
+    ui.showMessage("You enter: " + currentRoom->getName());
+    if (currentRoom->getName() == "Reactor Core") {
+        ui.showMessage("A massive shape stirs in the darkness...");
+        ui.pause();
+        menuBossFight();
+        return;
+    }
+    ui.pause();
+}
+void GameSystem::actionLookAround() {
+    ui.showMessage(currentRoom->printRooms());
+    logger.log("Player looked around: " + currentRoom->getName());
+    ui.pause();
+}
+
+void GameSystem::actionPickUpItem() {
+    // sin terminar
+    ui.showMessage("[Pick up] Requires Room::getItems() to activate.");
+    ui.pause();
+}
+
+void GameSystem::actionUseItem() {
+    // sin terminar
+    ui.showMessage(player->showInventory());
+    ui.showMessage("[Use item] Requires Backpack item access to activate.");
+    ui.pause();
+}
+
+void GameSystem::actionFightAndroid() {
+    for (Entity* e : currentRoom->getEntities()) {
+           if (Android* a = dynamic_cast<Android*>(e); a && !a->isOff()) {
+               menuCombat(a); return;
+           }
+    }
+    ui.showMessage("No active androids found here.");
+    ui.pause();
+}
+
+// ------------------ Menú de combate de Androide ------------------
+void GameSystem::menuCombat(Android* android) {
+    if (!android || android->isOff()) {
+        ui.showMessage("This android is already deactivated.");
+        ui.pause();
+        return;
+    }
+    logger.log("Combat started: " + android->getName());
+    while (!android->isOff() && player->getEnergy() > 0) {
+        ui.showMessage(android->showEntity());
+        ui.showBox("COMBAT", {
+            "Enemy : " + android->getName(),
+            "",
+            "1. Endure attack",
+            "2. Use deactivation key",
+            "3. Retreat",
+            "",
+            "Choose option..."
+        });
+        int option = ui.readOption(1, 3);
+        if (option == 1) {
+            double damage = 0;
+            android->attack(damage);
+            if (difficulty == "Medium") {
+                damage *= 1.3;
+            }
+            if (difficulty == "Difficult") {
+                damage *= 1.7;
+            }
+            int newEnergy = player->getEnergy() - static_cast<int>(damage);
+            player->setEnergy(newEnergy < 0 ? 0 : newEnergy);
+            ui.showMessage(android->getName() + " hits you for " + std::to_string(static_cast<int>(damage)) + " damage!");
+            logger.log(android->getName() + " dealt " + std::to_string(static_cast<int>(damage)) + " damage.");
+        } else if (option == 2) {
+            // crear verificacion de que el personaje tiene una llave de desactivación en la mochila
+            android->turnOff();
+            ui.showMessage(android->getName() + " deactivated!");
+            logger.log("Android " + android->getName() + " deactivated.");
+
+        } else {
+            ui.showMessage("You retreat.");
+            logger.log("Player retreated from " + android->getName());
+            break;
+        }
+    }
+    ui.pause();
+}
+
+// ------------------ Menú de combate del jefe principal ------------------
+void GameSystem::menuBossFight() {
+    Alien& alien = Alien::getInstance();
+    if (alien.isDefeated()) {
+        ui.showMessage("The alien is already dead.");
+        return;
+    }
+    logger.log("BOSS FIGHT started.");
+    while (!alien.isDefeated() && player->getEnergy() > 0) {
+        ui.showMessage(alien.showEntity());
+        ui.showBox("BOSS FIGHT", {
+            "Alien HP    : " + std::to_string(static_cast<int>(alien.getHealth())),
+            "Your energy : " + std::to_string(player->getEnergy()) + "%",
+            "",
+            "1. Attack with laser gun",
+            "2. Run",
+            "",
+            "Choose option..."
+        });
+        int option = ui.readOption(1, 2);
+        if (option == 1) {
+            // crear verificacion de que el personaje tiene la pistola laser en la mochila
+            double dmg = (difficulty == "Difficult") ? 18.0 : (difficulty == "Medium") ? 25.0 : 35.0;
+            alien.lowerHealth(dmg);
+            ui.showMessage("You fire! Alien takes " + std::to_string(static_cast<int>(dmg)) + " damage.");
+            logger.log("Player dealt " + std::to_string(static_cast<int>(dmg)) + " to alien.");
+            if (!alien.isDefeated()) {
+                double alienDmg = alien.attack();
+                if (difficulty == "Medium") {
+                    alienDmg *= 1.3;
+                }
+                if (difficulty == "Difficult") {
+                    alienDmg *= 1.7;
+                }
+                int newEnergy = player->getEnergy() - static_cast<int>(alienDmg);
+                player->setEnergy(newEnergy < 0 ? 0 : newEnergy);
+                ui.showMessage("The alien strikes back for " + std::to_string(static_cast<int>(alienDmg)) + "!");
+                logger.log("Alien dealt " + std::to_string(static_cast<int>(alienDmg)) + " to player.");
+            }
+        } else {
+            ui.showMessage("You flee from the Reactor Core!");
+            logger.log("Player fled boss fight.");
+            auto conns = currentRoom->getConnections();
+            if (!conns.empty()) {
+                currentRoom = conns[0];
+            }
+            return;
+        }
+    }
+    if (alien.isDefeated()) {
+        playerWon = true;
+        gameOver  = true;
+        logger.log("Alien DEFEATED. Player wins!");
+        ui.showMessage("The alien collapses. The ship goes silent.");
+        ui.pause();
+    }
+}
+
+// ------------------ Acciones en el juego ------------------
+void GameSystem::loadWorld() {
+    if (!allRooms.empty()) return;
+    try {
+        currentRoom = WorldLoader::loadWorld(allRooms);
+    } catch (const std::exception& e) {
+        ui.showMessage(std::string("[ERROR] ") + e.what());
+        ui.pause();
+    }
+}
+void GameSystem::checkState() {
+    if (player->getEnergy() <= 0 || player->getOxygen() <= 0) {
+        gameOver  = true;
+        playerWon = false;
+        logger.log("Player died.");
+    }
+    if (Alien::getInstance().isDefeated()) {
+        gameOver  = true;
+        playerWon = true;
+    }
+}
+void GameSystem::endGame() {
+    if (playerWon) {
+        ui.showBox("VOID PROTOCOL", {"MISSION COMPLETE", "You escaped the USS Erebus."});
+    } else {
+        ui.showBox("VOID PROTOCOL", {"MISSION FAILED", "The ship claims another soul."});
+    }
+    std::ostringstream report;
+    report << "Outcome    : " << (playerWon ? "VICTORY" : "DEFEAT") << "\n";
+    report << "Difficulty : " << difficulty << "\n\n";
+    report << "--- Player ---\n" << player->showInformation();
+    report << "\n--- Location ---\n" << currentRoom->getName() << "\n";
+    report << "\n--- Inventory ---\n" << player->showInventory();
+    logger.writeReport(report.str());
+    ui.showMessage("Report saved to report.txt");
+    ui.showMessage("Event log  saved to log.txt");
+}
