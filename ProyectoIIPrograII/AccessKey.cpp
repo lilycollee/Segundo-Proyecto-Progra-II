@@ -7,8 +7,9 @@ std::string AccessKey::getName() const {
     return name;
 }
 std::string AccessKey::description() {
+    char c = char(170);
     std::stringstream s;
-    s << "DESCRIPTION: " << name << " | Quick access key for emergencies {o--¬} \n";
+    s << "DESCRIPTION: " << name << " | Quick access key for emergencies {o--"<< c << "} \n";
     return s.str();
 }
 std::string AccessKey::toString(int nivel = 0) {

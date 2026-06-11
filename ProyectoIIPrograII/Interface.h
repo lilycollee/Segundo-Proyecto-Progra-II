@@ -27,6 +27,7 @@ public:
     int readOption(int min, int max) const;
     std::string readString(const std::string& prompt) const;
     void pause() const;
+    int generateInt(int min, int max) const;
 
     ~Interface() override = default;
 };

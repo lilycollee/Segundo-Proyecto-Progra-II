@@ -43,8 +43,10 @@ private:
     void loadWorld();
     void checkState();
     void endGame();
+    void resetGame();
 
     // ----------- Simulación -----------
+    void bossFightSimulator();
     void menuSimulation();
     void runSimulation();
 

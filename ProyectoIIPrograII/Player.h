@@ -37,6 +37,7 @@ public:
     //void useLaserGun(Weapon* weapon);
     void pickUpItem(Item* item);
     std::string showInventory() const;
+    void reset();
 
     //-------------- Observers  --------------
     void addObserver(IObserver* obs) override;

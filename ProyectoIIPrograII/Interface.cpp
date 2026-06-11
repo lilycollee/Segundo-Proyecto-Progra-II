@@ -3,6 +3,8 @@
 #include <vector>
 #include <iomanip>
 #include <limits>
+#include <random>
+#include <ctime>
 
 Interface::Interface(int width) : boxWidth(width) {}
 
@@ -105,6 +107,12 @@ std::string Interface::readString(const std::string& prompt) const {
 }
 
 void Interface::pause() const {
-    std::cout << "Press Enter to continue...";
+    std::cout << "Press Enter to continue...\n";
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+int Interface::generateInt(int min, int max) const {
+    static std::mt19937 gen(std::time(nullptr));
+    std::uniform_real_distribution<> dist(min, max);
+    return dist(gen);
 }

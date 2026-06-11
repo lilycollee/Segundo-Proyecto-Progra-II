@@ -99,14 +99,14 @@ ProyectoIIPrograII/
 ## Mapa de la nave USS Erebus
 
 ```
-[Airlock 0]
-     |
-[Corridor A 1]  ← AN-101 (Easy)
-   /     \
+         [Airlock 0]
+             |
+        [Corridor A 1]  ← AN-101 (Easy)
+       /          \
 [Storage 2]   [Medical 3]
- AN-204(Easy)   MedKit
+AN-204(Easy)   MedKit
  O2 + Key
-     \
+     |
 [Corridor B 4]  ← AN-317 (Medium), AccessKey
    /     \
 [Engineering 5] [Crew Quarters 6]
@@ -165,9 +165,6 @@ cmake -S ProyectoIIPrograII -B build
 cmake --build build
 ./build/ProyectoIIPrograII
 ```
-
-> Los archivos `data/` deben estar en el directorio de ejecución del binario.
-> En CLion, copiarlos dentro de `cmake-build-debug/data/`.
 
 ---
 

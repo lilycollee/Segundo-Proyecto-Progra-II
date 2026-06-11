@@ -89,4 +89,11 @@ std::string Room::printRooms() {
     }
     return s.str();
 }
-Room::~Room() {}
+Room::~Room() {
+    for (Entity* e : entity) {
+        delete e;
+    }
+    for (Item* i : trunk) {
+        delete i;
+    }
+}

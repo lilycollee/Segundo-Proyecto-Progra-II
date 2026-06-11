@@ -73,6 +73,13 @@ void Player::pickUpItem(Item *item) {
 std::string Player::showInventory() const {
     return myBackPack->toString(0);
 }
+void Player::reset() {
+    energy = 100;
+    oxygen = 100;
+    observers.clear();
+    myBackPack = std::make_unique<Backpack>();
+    myBackPack->add(new OxygenTank("Oxygen Tank", 30));
+}
 void Player::addObserver(IObserver* obs) {
     observers.push_back(obs);
 }

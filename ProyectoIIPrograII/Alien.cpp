@@ -31,7 +31,7 @@ std::string Alien::showEntity() const {
 double Alien::attack() {
     // The boss hits harder than the androids
     static std::mt19937 gen(std::time(nullptr));
-    std::uniform_real_distribution<double> dist(25, 35);
+    std::uniform_real_distribution<double> dist(10.55, 22.7);
     return dist(gen);
 }
 
@@ -42,4 +42,8 @@ void Alien::lowerHealth(double damage) {
 
 bool Alien::isDefeated() const {
     return health <= 0;
+}
+
+void Alien::reset() {
+    health = 120;
 }

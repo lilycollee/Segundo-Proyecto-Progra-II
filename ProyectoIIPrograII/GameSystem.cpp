@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <random>
 #include <sstream>
+
 GameSystem::GameSystem() {
     this->player = nullptr;
     this->currentRoom = nullptr;
@@ -30,7 +31,7 @@ void GameSystem::menuMain() {
     int option;
     do {
         ui.showBox("VOID PROTOCOL", {
-            "1. Start simulation",
+            "1. Interactive simulation",
             "2. Auto simulation",
             "3. Manual game",
             "4. Exit the game",
@@ -40,6 +41,7 @@ void GameSystem::menuMain() {
         option = ui.readOption(1, 4);
         switch (option) {
             case 1:
+                resetGame();
                 loadWorld();
                 if (!player) {
                     player = new Player();
@@ -50,9 +52,11 @@ void GameSystem::menuMain() {
                 menuGame();
                 break;
             case 2:
+                resetGame();
                 menuSimulation();
                 break;
             case 3:
+                resetGame();
                 menuManual();
                 break;
             case 4:
@@ -366,7 +370,6 @@ void GameSystem::actionPickUpItem() {
     logger.log("Player picked up: " + item->getName());
     ui.pause();
 }
-
 void GameSystem::actionUseItem() {
     auto& items = player->getBackpack()->getItems();
     // Filtrar solo items usables (activos)
@@ -505,6 +508,7 @@ void GameSystem::menuBossFight() {
             "",
             "1. Attack with laser gun",
             "2. Run",
+            "3. Self-healing",
             "",
             "Choose option..."
         });
@@ -610,21 +614,135 @@ void GameSystem::endGame() {
     ui.showSeparator();
     ui.pause();
 }
+void GameSystem::resetGame() {
+    for (Room* r : allRooms) {
+        delete r;
+    }
+    allRooms.clear();
+    currentRoom = nullptr;
+
+    Alien::getInstance().reset();
+
+    if (!player) {
+        player = new Player();
+    } else {
+        player->reset();
+    }
+    player->addObserver(&hud);
+    player->addObserver(&logger);
+
+    gameOver  = false;
+    playerWon = false;
+}
 
 // ------------------ Menú de simulación ------------------
+
+void GameSystem::bossFightSimulator() {
+    Alien& alien = Alien::getInstance();
+    int lowHP = 40;
+    bool playerDead = false;
+    bool inCombat = true;
+
+    // Verificar que tiene la laser gun
+    bool hasGun = false;
+    auto& items = player->getBackpack()->getItems();
+    for (auto* it : player->getBackpack()->getItems()) {
+        if (dynamic_cast<LaserGun*>(it)) {
+            hasGun = true; break;
+        }
+    }
+    if (!hasGun) {
+        ui.showMessage("You need the Laser Gun to fight the alien!");
+        logger.log("SIM reached the alien without a laser gun. Cannot win.");
+        gameOver = true;
+        ui.pause();
+        return;
+    }
+
+    do {
+         double dmg = (difficulty == "Difficult") ? 18.0 : (difficulty == "Medium") ? 25.0 : 35.0;
+        alien.lowerHealth(dmg);
+
+        ui.showMessage("You fire! Alien takes " + std::to_string(static_cast<int>(dmg)) + " damage.");
+        logger.log("Player dealt " + std::to_string(static_cast<int>(dmg)) + " to alien.");
+
+        if (!alien.isDefeated()) {
+            double alienDmg = alien.attack();
+            if (difficulty == "Medium") {
+                alienDmg *= 1.3;
+            }
+            if (difficulty == "Difficult") {
+                alienDmg *= 1.7;
+            }
+
+            int newEnergy = player->getEnergy() - static_cast<int>(alienDmg);
+
+            if (newEnergy < 0) {
+                player->setEnergy(0);
+            } else {
+                player->setEnergy(newEnergy);
+            }
+
+            ui.showMessage("The alien strikes back for " + std::to_string(static_cast<int>(alienDmg)) + "!");
+            logger.log("Alien dealt " + std::to_string(static_cast<int>(alienDmg)) + " to player.");
+        }
+        player->setOxygen(player->getOxygen()-5);
+
+        //si tiene energia baja, usa kitMedico
+        if (player->getEnergy() < lowHP) {
+            auto& listItem = player->getBackpack()->getItems();
+            for (auto* it : listItem) {
+                if (auto* kit = dynamic_cast<MedicalEquipment*>(it); kit && kit->getActive()) {
+                    player->useMedicalKit(kit);
+                    ui.showMessage("You are ready to continue fighting!");
+                    logger.log("Player used MedKit: " + kit->getName());
+                    ui.pause();
+                    break;
+                }
+            }
+        }
+        //si tiene oxigeno bajo, usa tanqueOxygeno
+        if (player->getOxygen() <= lowHP) {
+            auto& listItems = player->getBackpack()->getItems();
+            for (auto* it :listItems) {
+                if (auto* oxy = dynamic_cast<OxygenTank*>(it); oxy && oxy->getActive()) {
+                    player->refillOxygen(oxy);
+                    ui.showMessage("Your oxygen was restored.");
+                    logger.log("Player used OxygenTank: " + oxy->getName());
+                    ui.pause();
+                    break;
+                }
+            }
+        }
+
+        //comprueba que el jugador sigue vivo
+        if (player->getOxygen() == 0 || player->getEnergy() == 0) { playerDead = true; }
+
+        //si alien o player mueren el combate termina
+        if (alien.isDefeated() || playerDead) {
+                inCombat = false;
+        }
+
+        ui.pause();
+    } while(inCombat);
+
+    if (alien.isDefeated()) {
+        playerWon = true;
+        gameOver  = true;
+        logger.log("Alien DEFEATED. Player wins!");
+        ui.showMessage("The alien collapses. The ship goes silent.");
+    }
+    ui.pause();
+}
+
 void GameSystem::menuSimulation() {
+    resetGame();
     ui.showBox("AUTO SIMULATION", {
         "The ship will be explored automatically.",
-        "Watch the crew navigate the USS Erebus.",
-        "",
-        "Select difficulty:",
-        "1. Easy",
-        "2. Medium",
-        "3. Difficult",
-        "",
-        "Choose option..."
+        "Watch the crew navigate the USS Erebus.\n",
+
     });
-    int opt = ui.readOption(1, 3);
+    int opt = ui.generateInt(1,3);
     if (opt == 1) {
         difficulty = "Easy";
     } else if (opt == 2) {
@@ -725,12 +843,15 @@ void GameSystem::runSimulation() {
         if (gameOver) {
             break;
         }
-        // ------------ Reactor Core: pelear al alien ------------
+
+        // ------------ Reactor Core: pelear con alien ------------
         if (currentRoom->getName() == "Reactor Core") {
             ui.showMessage("  >> Entering boss fight!");
-            menuBossFight();
+            ui.pause();
+            bossFightSimulator();
             break;
         }
+
         // ------------ Decidir hacia dónde moverse ------------
         auto conns = currentRoom->getConnections();
         if (conns.empty()) {
