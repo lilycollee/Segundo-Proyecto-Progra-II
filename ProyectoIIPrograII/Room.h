@@ -31,6 +31,9 @@ public:
     std::string singleSidedPrinting();
     std::string printRooms();
 
+    //-------------- Operator Overloading --------------
+    friend std::ostream& operator<<(std::ostream& os, Room& r);
+
     // --------------- Destructor ---------------
     ~Room();
 };

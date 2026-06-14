@@ -1,6 +1,5 @@
 #ifndef SEGUNDO_PROYECTO_PROGRA_II_PLAYER_H
 #define SEGUNDO_PROYECTO_PROGRA_II_PLAYER_H
-#include <iostream>
 #include <sstream>
 #include <memory>
 #include "Entity.h"
@@ -43,5 +42,8 @@ public:
     void addObserver(IObserver* obs) override;
     void removeObserver(IObserver* obs) override;
     void notify(const std::string& event, double value = 0) override;
+
+    //-------------- Operator Overloading --------------
+    friend std::ostream& operator<<(std::ostream& os, const Player& p);
 };
 #endif //SEGUNDO_PROYECTO_PROGRA_II_PLAYER_H

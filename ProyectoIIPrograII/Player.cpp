@@ -91,3 +91,7 @@ void Player::notify(const std::string& event, double value) {
         obs->onEvent(event, value);
     }
 }
+std::ostream& operator<<(std::ostream& os, const Player& p) {
+    os << p.showInformation();
+    return os;
+}

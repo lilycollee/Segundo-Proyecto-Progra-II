@@ -89,6 +89,10 @@ std::string Room::printRooms() {
     }
     return s.str();
 }
+std::ostream& operator<<(std::ostream& os, Room& r) {
+    os << r.printRooms();
+    return os;
+}
 Room::~Room() {
     for (Entity* e : entity) {
         delete e;

@@ -337,7 +337,9 @@ void GameSystem::actionMove() {
     ui.pause();
 }
 void GameSystem::actionLookAround() {
-    ui.showMessage(currentRoom->printRooms());
+    std::ostringstream oss;
+    oss << *currentRoom;
+    ui.showMessage(oss.str());
     logger.log("Player looked around: " + currentRoom->getName());
     ui.pause();
 }
@@ -592,7 +594,7 @@ void GameSystem::endGame() {
     std::ostringstream report;
     report << "Outcome    : " << (playerWon ? "VICTORY" : "DEFEAT") << "\n";
     report << "Difficulty : " << difficulty << "\n\n";
-    report << "--- Player ---\n" << player->showInformation();
+    report << "--- Player ---\n" << *player;
     report << "\n--- Location ---\n" << currentRoom->getName() << "\n";
     report << "\n--- Inventory ---\n" << player->showInventory();
     logger.writeReport(report.str());
