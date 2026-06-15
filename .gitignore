@@ -1,11 +1,19 @@
-# Carpeta de build
-cmake-build-*/
+# Build folder
+cmake-build-*/*
 build/
 
-# Archivos de CLion
+# re includes its own files
+!cmake-build-*/data/rooms.txt
+!cmake-build-*/data/connections.txt
+!cmake-build-*/data/androids.txt
+!cmake-build-*/data/items.txt
+!cmake-build-*/data/report.txt
+!cmake-build-*/data/log.txt
+
+# CLion files
 .idea/
 
-# Archivos compilados
+# Compiled files
 *.o
 *.obj
 *.exe

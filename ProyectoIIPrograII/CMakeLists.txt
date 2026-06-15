@@ -47,3 +47,10 @@ add_executable(ProyectoIIPrograII main.cpp
         WorldLoader.cpp
         WorldLoader.h
 )
+
+# Copiar los archivos de datos del mundo al directorio de ejecucion del binario
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data/rooms.txt
+        ${CMAKE_CURRENT_SOURCE_DIR}/data/connections.txt
+        ${CMAKE_CURRENT_SOURCE_DIR}/data/androids.txt
+        ${CMAKE_CURRENT_SOURCE_DIR}/data/items.txt
+        DESTINATION ${CMAKE_BINARY_DIR})

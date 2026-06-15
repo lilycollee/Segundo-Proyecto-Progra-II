@@ -28,7 +28,7 @@ private:
     void menuDifficulty();
     void menuItems();
     void menuItemType(const std::string& type);
-    void menuGame();
+    void menuGame(); // juego interativo
     void menuCombat(Android* android);
     void menuBossFight();
 

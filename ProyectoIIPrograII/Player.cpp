@@ -18,7 +18,7 @@ Player::~Player() {
 }
 int Player::getEnergy() const  { return energy; }
 void Player::setEnergy(int e) {
-    this->energy = e;
+    this -> energy = (e <= 0) ? 0 : this->energy = e;
     notify("ENERGY_CHANGED", energy);
     if (energy <= 0) {
         notify("PLAYER_DEAD");
@@ -26,7 +26,7 @@ void Player::setEnergy(int e) {
 }
 double Player::getOxygen() const  { return oxygen; }
 void Player::setOxygen(int o) {
-    this->oxygen = o;
+    this->oxygen = (o <= 0)?  0 : o;
     notify("OXYGEN_CHANGED", oxygen);
     if (oxygen <= 0) {
         notify("PLAYER_DEAD");

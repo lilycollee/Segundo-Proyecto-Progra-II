@@ -5,7 +5,7 @@
 #include <limits>
 #include <random>
 #include <ctime>
-
+#include <cstdlib>
 Interface::Interface(int width) : boxWidth(width) {}
 
 // ------------------------ Metodos privados ------------------------
@@ -23,7 +23,7 @@ void Interface::printBottom() const {
 
 // ejemplo -->  energy[****************....] 80%
 std::string Interface::percentageBar(const std::string& label, double value, int width) const {
-    int line = static_cast<int>(value / 100.0 * width);     //calcula el numero de caracteres y la cantidad llenos y vacios, redondea y devuelve un en entero
+    int line = static_cast<int>(value / 100.0 * width);
     if (line < 0) {
         line = 0;
     }
@@ -31,8 +31,8 @@ std::string Interface::percentageBar(const std::string& label, double value, int
         line = width;
     }
     std::string bar = "[";
-    bar += std::string(line, '*');                //caracteres para representar el espacio ocupado-todavia disponible
-    bar += std::string(width - line, '.');      // caracteres para el espacio libre - usado
+    bar += std::string(line, '*');
+    bar += std::string(width - line, '.');
     bar += "]";
     std::ostringstream oss;
     oss << std::left << std::setw(10) << label << " " << bar << " " << static_cast<int>(value) << "%";
@@ -51,7 +51,7 @@ void Interface::onEvent(const std::string& event, double value) {
 
 // ------------------------ Impresión ------------------------
 void Interface::showBanner() const {
-    std::cout << "[================] VOID PROTOCOL [================]\n";
+    std::cout << "\n\n[================] VOID PROTOCOL [================]\n";
     std::cout << "|Your space base was attacked! Survive through the|\n";
     std::cout << "|rooms until you manage to reach your escape pod. |\n";
     std::cout << "|                                                 |\n";
@@ -113,6 +113,6 @@ void Interface::pause() const {
 
 int Interface::generateInt(int min, int max) const {
     static std::mt19937 gen(std::time(nullptr));
-    std::uniform_real_distribution<> dist(min, max);
+    std::uniform_int_distribution<int> dist(min, max);
     return dist(gen);
 }

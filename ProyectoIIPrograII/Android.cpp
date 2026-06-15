@@ -11,13 +11,13 @@ Android::~Android() {};
 void Android::setDamageRangeType() {
 	switch (type) {
         case Type::Easy:
-            minDamage = 1;  maxDamage = 4.99;
+            minDamage = 1;  maxDamage = 5.99;
             break;
         case Type::Medium:
-            minDamage = 3.5; maxDamage = 8.5;
+            minDamage = 6; maxDamage = 10.99;
             break;
         case Type::Hard:
-            minDamage = 7.5; maxDamage = 14.99;
+            minDamage = 9; maxDamage = 14.99;
             break;
     }
 }
