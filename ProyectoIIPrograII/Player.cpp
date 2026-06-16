@@ -18,7 +18,7 @@ Player::~Player() {
 }
 int Player::getEnergy() const  { return energy; }
 void Player::setEnergy(int e) {
-    this -> energy = (e <= 0) ? 0 : this->energy = e;
+    this -> energy = (e <= 0) ? 0 : e;
     notify("ENERGY_CHANGED", energy);
     if (energy <= 0) {
         notify("PLAYER_DEAD");

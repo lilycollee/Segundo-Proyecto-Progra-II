@@ -44,6 +44,8 @@ private:
     void checkState();
     void endGame();
     void resetGame();
+    bool hasAccessKey();
+    bool canEnter(Room* room);
 
     // ----------- Simulación -----------
     void bossFightSimulator();

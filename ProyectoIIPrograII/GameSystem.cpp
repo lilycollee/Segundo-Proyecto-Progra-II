@@ -4,6 +4,7 @@
 #include "MedicalEquipment.h"
 #include "DeactivationKey.h"
 #include "LaserGun.h"
+#include "AccessKey.h"
 #include <iomanip>
 #include <random>
 #include <sstream>
@@ -49,6 +50,7 @@ void GameSystem::menuMain() {
                 player->addObserver(&hud);
                 player->addObserver(&logger);
                 logger.log("Simulation started. Difficulty: " + difficulty);
+                ui.showMessage("Iniciar simulación en dificultad: " + difficulty);
                 menuGame();
                 break;
             case 2:
@@ -319,7 +321,15 @@ void GameSystem::actionMove() {
     ui.showBox("MOVE TO", lines);
     int option = ui.readOption(1, cancelOpt);
     if (option == cancelOpt) return;
-    currentRoom = connections[option - 1];
+    Room* destination = connections[option - 1];
+    // Puerta: el Bridge requiere la Bridge Access Card
+    if (!canEnter(destination)) {
+        ui.showMessage("The Bridge is sealed. You need a Bridge Access Card to enter.");
+        logger.log("Access to Bridge denied: player has no access card.");
+        ui.pause();
+        return;
+    }
+    currentRoom = destination;
     int drop = (difficulty == "Difficult") ? 12 : (difficulty == "Medium") ? 8 : 5;
     int newOxy = static_cast<int>(player->getOxygen()) - drop;
     player->setOxygen(newOxy < 0 ? 0 : newOxy);
@@ -586,6 +596,21 @@ void GameSystem::menuBossFight() {
 }
 
 // ------------------ Acciones en el juego ------------------
+bool GameSystem::hasAccessKey() {
+    for (auto* it : player->getBackpack()->getItems()) {
+        if (dynamic_cast<AccessKey*>(it)) {
+            return true;
+        }
+    }
+    return false;
+}
+bool GameSystem::canEnter(Room* room) {
+    // El Bridge esta sellado: requiere la Bridge Access Card.
+    if (room->getName() == "Bridge") {
+        return hasAccessKey();
+    }
+    return true;
+}
 void GameSystem::loadWorld() {
     if (!allRooms.empty()) return;
     try {
@@ -885,10 +910,17 @@ void GameSystem::runSimulation() {
         }
 
         // ------------ Decidir hacia dónde moverse ------------
-        auto conns = currentRoom->getConnections();
+        auto allConns = currentRoom->getConnections();
+        // Solo considerar salas a las que el bot puede entrar (el Bridge necesita la tarjeta)
+        std::vector<Room*> conns;
+        for (Room* r : allConns) {
+            if (canEnter(r)) {
+                conns.push_back(r);
+            }
+        }
         if (conns.empty()) {
-            ui.showMessage("  >> No exits. Simulation stuck.");
-            logger.log("SIM stuck — no exits.");
+            ui.showMessage("  >> No reachable exits. Simulation stuck.");
+            logger.log("SIM stuck — no reachable exits.");
             break;
         }
 
