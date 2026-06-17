@@ -15,6 +15,7 @@ GameSystem::GameSystem() {
     this->gameOver = false;
     this->playerWon = false;
     this->difficulty = "Undefined";
+    this->games = 0;
 }
 GameSystem::~GameSystem() {
     for (Room* r : allRooms) {
@@ -44,13 +45,6 @@ void GameSystem::menuMain() {
             case 1:
                 resetGame();
                 loadWorld();
-                if (!player) {
-                    player = new Player();
-                }
-                player->addObserver(&hud);
-                player->addObserver(&logger);
-                logger.log("Simulation started. Difficulty: " + difficulty);
-                ui.showMessage("Iniciar simulación en dificultad: " + difficulty);
                 menuGame();
                 break;
             case 2:
@@ -106,12 +100,11 @@ void GameSystem::menuManual() {
                 break;
             }
             case 4: {
+                resetGame();
                 loadWorld();
-                if (!player) {
-                    player = new Player();
+                if(difficulty == "Undefined") {
+                    difficulty = "Medium";
                 }
-                player->addObserver(&hud);
-                player->addObserver(&logger);
                 logger.log("Manual game started. Player: " + player->getName() + " | Difficulty: " + difficulty);
                 menuGame();
                 break;
@@ -244,7 +237,9 @@ void GameSystem::menuItemType(const std::string& type) {
 void GameSystem::menuGame() {
     gameOver  = false;
     playerWon = false;
-    difficulty = "Medium";
+    games++;
+    logger.log("Simulation started. Difficulty: " + difficulty);
+    ui.showMessage("Start simulation at difficulty level: " + difficulty);
     while (!gameOver) {
         ui.showBox("STATUS", {
             "Location : " + currentRoom->getName(),
@@ -322,7 +317,7 @@ void GameSystem::actionMove() {
     int option = ui.readOption(1, cancelOpt);
     if (option == cancelOpt) return;
     Room* destination = connections[option - 1];
-    // Puerta: el Bridge requiere la Bridge Access Card
+
     if (!canEnter(destination)) {
         ui.showMessage("The Bridge is sealed. You need a Bridge Access Card to enter.");
         logger.log("Access to Bridge denied: player has no access card.");
@@ -534,6 +529,7 @@ void GameSystem::menuBossFight() {
                 }
                 if (!hasGun) {
                     ui.showMessage("You need the Laser Gun to fight the alien!");
+                    ui.showNote("You can escape from the Alien (2) or search for a laser gun in this room (4)");
                     logger.log("Player tried to attack alien without laser gun.");
                     ui.pause();
                     continue;   // vuelve al inicio del while
@@ -575,6 +571,7 @@ void GameSystem::menuBossFight() {
                 break;
             }
         }
+
     }
 
     if (alien.isDefeated()) {
@@ -638,8 +635,9 @@ void GameSystem::endGame() {
         ui.showBox("VOID PROTOCOL", {"MISSION FAILED", "The ship claims another soul."});
     }
     std::ostringstream report;
-    report << "Outcome    : " << (playerWon ? "VICTORY" : "DEFEAT") << "\n";
-    report << "Difficulty : " << difficulty << "\n\n";
+    report << "Outcome      : " << (playerWon ? "VICTORY" : "DEFEAT") << "\n";
+    report << "Difficulty   : " << difficulty << "\n";
+    report << "Games played : " << games << "\n\n";
     report << "--- Player ---\n" << *player;
     report << "\n--- Location ---\n" << currentRoom->getName() << "\n";
     report << "\n--- Inventory ---\n" << player->showInventory();
@@ -664,6 +662,13 @@ void GameSystem::endGame() {
     ui.pause();
 }
 void GameSystem::resetGame() {
+    if (games == 0) {
+        logger.log("Loading world");
+    }
+    else {
+        logger.log("Game has been reset");
+    }
+    difficulty = "Undefined";
     for (Room* r : allRooms) {
         delete r;
     }
@@ -793,12 +798,10 @@ void GameSystem::bossFightSimulator() {
 }
 
 void GameSystem::menuSimulation() {
-    resetGame();
+    games++;
     ui.showBox("AUTO SIMULATION", {
         "The ship will be explored automatically.",
-        "Watch the crew navigate the USS Erebus.",
-
-    });
+        "Watch the crew navigate the USS Erebus.",});
     int opt = ui.generateInt(1,3);
     if (opt == 1) {
         difficulty = "Easy";
@@ -811,8 +814,6 @@ void GameSystem::menuSimulation() {
     if (!player) {
         player = new Player("SIM-Unit");
     }
-    player->addObserver(&hud);
-    player->addObserver(&logger);
     logger.log("AUTO SIMULATION started. Difficulty: " + difficulty);
     ui.showMessage("\n>>> AUTO SIMULATION STARTING <<<\n");
     ui.pause();
@@ -846,7 +847,7 @@ void GameSystem::runSimulation() {
             auto& items = player->getBackpack()->getItems();
             for (int i = 0; i < (int)items.size(); i++) {
                 if (auto* oxy = dynamic_cast<OxygenTank*>(items[i])) {
-                    if (oxy->getActive() && player->getOxygen() < 75) {
+                    if (oxy->getActive() && player->getOxygen() < 50) {
                         player->refillOxygen(oxy);
                         ui.showMessage("  >> Uses oxygen tank. Oxygen: " + std::to_string(static_cast<int>(player->getOxygen())) + "%");
                         logger.log("SIM used OxygenTank.");
@@ -854,7 +855,7 @@ void GameSystem::runSimulation() {
                         break; // reinicia el for desde el principio
                     }
                 } else if (auto* kit = dynamic_cast<MedicalEquipment*>(items[i])) {
-                    if (kit->getActive() && player->getEnergy() < 75) {
+                    if (kit->getActive() && player->getEnergy() < 50) {
                         player->useMedicalKit(kit);
                         ui.showMessage("  >> Uses med kit. Energy: " + std::to_string(player->getEnergy()) + "%");
                         logger.log("SIM used MedKit.");

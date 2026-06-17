@@ -21,6 +21,7 @@ private:
     bool gameOver;
     bool playerWon;
     std::string difficulty;
+    int games;
 
     // ----------- Menús -----------
     void menuMain();
@@ -28,7 +29,7 @@ private:
     void menuDifficulty();
     void menuItems();
     void menuItemType(const std::string& type);
-    void menuGame(); // juego interativo
+    void menuGame();
     void menuCombat(Android* android);
     void menuBossFight();
 
